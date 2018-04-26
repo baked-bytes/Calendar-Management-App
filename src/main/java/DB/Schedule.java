@@ -1,11 +1,21 @@
 package DB;
 
-public class Schedular {
+public class Schedule {
 	private String year;
 	private String month;
 	private String day;
 	private String content;
 	private String time;
+	private boolean isNotify;
+	
+	
+	public boolean getisNotify(){
+	  return isNotify;
+	}
+	
+	public void setisNotify(boolean isNotify){
+		this.isNotify = isNotify;
+	}
 
 	public String getYear() {
 		return year;

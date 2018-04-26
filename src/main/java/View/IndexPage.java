@@ -64,7 +64,7 @@ public class IndexPage extends JFrame implements ActionListener {
 		}
 		YearBox.setSelectedIndex(0);
 
-		for (int i = 1; i <= 13; i++) {
+		for (int i = 1; i <= 12; i++) {
 			MonthBox.addItem(i + "");
 		}
 		MonthBox.setSelectedIndex(now_month);

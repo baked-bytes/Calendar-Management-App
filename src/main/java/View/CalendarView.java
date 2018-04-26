@@ -42,7 +42,7 @@ public class CalendarView extends JFrame{
         JPanel panel=new JPanel();
         add(panel, BorderLayout.SOUTH);
         JButton addButton = new JButton("ADD Schedule");
-        JButton okButton = new JButton("EDIT/DELEE Schedule");
+        JButton okButton = new JButton("EDIT/DELETE Schedule");
         addButton.setFont(new Font("Arial", Font.PLAIN, 24));
         okButton.setFont(new Font("Arial", Font.PLAIN, 24));
         panel.add(addButton);

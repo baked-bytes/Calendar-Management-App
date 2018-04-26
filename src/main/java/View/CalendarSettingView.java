@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -21,6 +23,7 @@ public class CalendarSettingView extends JFrame {
 	private JPanel contentPane;
 	private JTextField startTimeText;
 	private JTextField endTimeText;
+	private JCheckBox windowRemiderCheck;
 
 	/**
 	 * Launch the application.
@@ -81,10 +84,8 @@ public class CalendarSettingView extends JFrame {
 		
 		endTimeText.setColumns(5);
 		
-		
-		
-		JTextArea addhour = new JTextArea();
-		JTextArea addmin = new JTextArea();
+		windowRemiderCheck = new JCheckBox("Remider");
+		panel.add(windowRemiderCheck);
 	}
 
 }
