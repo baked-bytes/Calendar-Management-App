@@ -6,14 +6,23 @@ public class Schedule {
 	private String day;
 	private String content;
 	private String time;
-	private boolean isNotify;
+	private String id;
+	private String isNotify;
+	
+	public String getId(){
+	  return id;
+	}
+	
+	public void setId(String id){
+	  this.id = id;
+	}
 	
 	
-	public boolean getisNotify(){
+	public String getisNotify(){
 	  return isNotify;
 	}
 	
-	public void setisNotify(boolean isNotify){
+	public void setisNotify(String isNotify){
 		this.isNotify = isNotify;
 	}
 

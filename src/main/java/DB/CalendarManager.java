@@ -72,9 +72,15 @@ public class CalendarManager {
 		executeSQL(sql);
 	}
 
-	public void editSchedule(Schedule schedule, String idDelete) {
-		deleteDaySchedule(idDelete);
-		addSchedule(schedule);
+	public void editSchedule(Schedule data, String idEdit) {
+//		deleteDaySchedule(idDelete);
+//		addSchedule(schedule);
+//		String sql = "insert into Schedule( YEAR, MONTH, DAY,CONTENT, TIME, NOTIFY )" + "VALUES(\'" + data.getYear() + "','"
+//				+ data.getMonth() + "','" + data.getDay() + "','" + data.getContent() + "','" + data.getTime() + 
+//				"','"+ data.getisNotify()+ "\');";
+		
+		String sql = "update Schedule set CONTENT='" + data.getContent() + "',TIME = '" + data.getTime()+"',NOTIFY='" + data.getisNotify()+"'where id = '" +idEdit + "';"; 
+		executeSQL(sql);
 	}	
 
 	public void deleteDaySchedule(String id) {
@@ -86,9 +92,10 @@ public class CalendarManager {
 	  return allScheduleList;
 	}
 	
-	public void setSchedule(){
+	public Schedule getIdSchdule(String id){
 		Connection c = null;
 		Statement stmt = null;
+		Schedule schedule = new Schedule();
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
@@ -96,7 +103,41 @@ public class CalendarManager {
 			System.out.println("Opened database successfully");
 
 			stmt = c.createStatement();
-			String sql = "SELECT * FROM Schedule where year='" + year +"'AND month='" + month +"'AND day='" + day + "';";
+			String sql = "SELECT * FROM Schedule where id='" + id +"';";
+			
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {		
+				schedule.setDay(rs.getString("day"));
+				schedule.setYear(rs.getString("year"));
+				schedule.setTime(rs.getString("time"));
+				schedule.setisNotify(rs.getString("NOTIFY"));
+				System.out.println("@@" + rs.getString("NOTIFY"));
+				schedule.setContent(rs.getString("CONTENT"));
+				schedule.setId(rs.getString("id"));	
+			}
+			rs.close();
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Operation done successfully");
+		return schedule;
+	}
+	
+	public void setSchedule(){
+		Connection c = null;
+		Statement stmt = null;
+		allScheduleList.clear();
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+
+			stmt = c.createStatement();
+			String sql = "SELECT * FROM Schedule where year='" + year +"'AND month='" + month +"'AND day='" + day + "' order by time ASC;";
 			
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {				
@@ -104,9 +145,9 @@ public class CalendarManager {
 				schedule.setDay(rs.getString("day"));
 				schedule.setYear(rs.getString("year"));
 				schedule.setTime(rs.getString("time"));
-				schedule.setisNotify(rs.getBoolean("notify"));
-				schedule.setTime(rs.getString("time"));
+				schedule.setisNotify(rs.getString("notify"));
 				schedule.setContent(rs.getString("CONTENT"));
+				schedule.setId(rs.getString("id"));
 				
 				allScheduleList.add(schedule);				
 			}
@@ -121,7 +162,9 @@ public class CalendarManager {
 	}
 
 	public static void main(String args[]) {
-		CalendarManager jd = new CalendarManager("2018", "4", "4");
+		CalendarManager jd = new CalendarManager("2018", "4", "27");
+		jd.setSchedule();
+		System.out.println( jd.getSchedule().get(0).getId());
 //		jd.createTable();
 //		 Schedule data = new Schedule();
 //		 data.setYear("2018");
