@@ -213,6 +213,17 @@ public class IndexPage extends JFrame implements ActionListener {
 							} catch (Exception ex) {
 								ex.printStackTrace();
 							}
+							try {
+								AccountView frame = new AccountView(YearBox.getSelectedItem().toString(),
+										MonthBox.getSelectedItem().toString(), butSrcTxt);
+								frame.init();
+								frame.setLocationRelativeTo(null);
+								frame.setVisible(true);
+								frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+								//
+							} catch (Exception ex) {
+								ex.printStackTrace();
+							}
 						}
 					} // if
 				}

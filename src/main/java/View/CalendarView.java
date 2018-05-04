@@ -116,14 +116,13 @@ public class CalendarView extends JFrame implements ActionListener {
 		editButton.addActionListener(this);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addButton) {
 			CalendarSettingView calendarSettingView = new CalendarSettingView(year, month, day, this);
 			calendarSettingView.setVisible(true);
 			calendarSettingView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		} else if (e.getSource() == editButton) {
-			CalendarIDView dialog = new CalendarIDView(year, month, day, this);
+			AccountIDView dialog = new AccountIDView(year, month, day);
 			dialog.setModal(true);
 			dialog.setVisible(true);
 		}

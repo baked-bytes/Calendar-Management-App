@@ -65,7 +65,6 @@ public class CalendarIDView extends JDialog implements ActionListener{
 //		dialog.setVisible(true);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		CalendarManager calendarManager = new CalendarManager(year, month, day);
 		String id = textId.getText();	
