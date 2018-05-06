@@ -18,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import CalendarView.CalendarView;
+
 public class IndexPage extends JFrame implements ActionListener {
 
 	private JComboBox MonthBox = new JComboBox();
