@@ -9,9 +9,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
-
 import View.AccountView;
+import View.AccountIDView;
 
 public class AccountManager {
 	
@@ -19,7 +20,7 @@ public class AccountManager {
 	private String month;
 	private String day;
 	
-	private ArrayList<CostRecord> allCostRecordList = new ArrayList<CostRecord>();
+	private ArrayList<String> adayCostRecordIDList = new ArrayList<String>();
 	
 	public AccountManager(String year, String month , String day) {
 	  this.year = year;
@@ -91,8 +92,30 @@ public class AccountManager {
 		setCostRecord();
 	}
 	
-	public ArrayList<CostRecord> getCostRecord(){
-	  return allCostRecordList;
+	public ArrayList<String> getadayCostRecordIDList(){
+		Connection c = null;
+		Statement stmt = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+			stmt = c.createStatement();
+			System.out.println(year);
+			String sql = "SELECT * FROM Account where year='" + year +"'AND month='" + month +"'AND day='" + day + "';";
+			ResultSet rs = stmt.executeQuery(sql);
+			adayCostRecordIDList.clear(); 
+			while (rs.next()) {
+	            adayCostRecordIDList.add( rs.getString("id"));
+			}
+			rs.close();
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+	  return adayCostRecordIDList;
 	}
 	
 	public CostRecord getIdCostRecord(String id){
@@ -130,7 +153,6 @@ public class AccountManager {
 	public void setCostRecord(){
 		Connection c = null;
 		Statement stmt = null;
-		allCostRecordList.clear();
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
@@ -142,21 +164,30 @@ public class AccountManager {
 			String sql = "SELECT * FROM Account where year='" + year +"'AND month='" + month +"'AND day='" + day + "';";
 			
 			ResultSet rs = stmt.executeQuery(sql);
+			AccountIDView.idBox.removeAllItems();
+			DefaultComboBoxModel model = (DefaultComboBoxModel)AccountIDView.idBox.getModel();
 			DefaultTableModel tm = (DefaultTableModel)AccountView.table.getModel();
 			ResultSetMetaData rsmd = rs.getMetaData();
+			adayCostRecordIDList.clear();
 			tm.setColumnCount(0);
 			tm.setRowCount(0);
 			tm.addColumn("ID"); 
 			tm.addColumn("COST"); 
 			tm.addColumn("TYPE"); 
 			tm.addColumn("CONTENT"); 
+			int i = 1;
 			while (rs.next()) {
 				String[] a = new String[4];
-	            a[0] = rs.getString("id");
+	            a[0] =  Integer.toString(i);
 	            a[1] = rs.getString("cost");
 	            a[2] = rs.getString("type");
 	            a[3] = rs.getString("CONTENT");
 	            tm.addRow(a);
+	            i++;
+	            adayCostRecordIDList.add( rs.getString("id"));
+			}
+			for (int x = 0; x < adayCostRecordIDList.size(); x++) {
+				model.addElement(Integer.toString(x+1));
 			}
 			rs.close();
 			stmt.close();
