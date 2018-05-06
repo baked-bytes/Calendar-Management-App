@@ -41,6 +41,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 	private Schedule schedule = null;
 	private Schedule scheduleAfterUserInput;
 	boolean isEdit = false;
+	private String errorMessage;
 
 	public CalendarSettingView(String year, String month, String day, CalendarView calendarView) {
 		this.year = year;
@@ -70,11 +71,11 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 			windowRemiderCheck.setSelected(true);
 	}
 
-	public void init() {		
+	public void init() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 350, 191);
+		setBounds(100, 100, 400, 250);
 		JPanel contentPane = new JPanel();
-		this.setTitle("Calendar " + year + " /" + month + " /" + day);
+		this.setTitle(year + " /" + month + " /" + day);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
@@ -109,38 +110,43 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		
-		if (confirmTheDataInputFormat()) {
-			
-			CalendarManager calendarManager = new CalendarManager(year, month, day);
 
+		String userInputContent = textContentArea.getText();
+		String userInputStartTime = startTimeText.getText();
+		String userInputEndTime = endTimeText.getText();
+		String userRemiderCheck = (windowRemiderCheck.isSelected()) ? "true" : "false";
+
+		if (!confirmTheDataInputFormat(userInputContent, userInputStartTime, userInputEndTime, userRemiderCheck))
+			showErrorMessageDialog(errorMessage);
+		else {
+			CalendarManager calendarManager = new CalendarManager(year, month, day);
 			if (isEdit) {
 				calendarManager.editSchedule(scheduleAfterUserInput, schedule.getId());
 			} else {
 				calendarManager.addSchedule(scheduleAfterUserInput);
 			}
-			
 			calendarView.refreshTableData();
 			dispose();
-		} // if
+		}
 	} // actionPerformed()
 
-	public boolean confirmTheDataInputFormat() {
-		String content = textContentArea.getText();
-		String time = startTimeText.getText() + "-" + endTimeText.getText();
-		String remiderCheck = (windowRemiderCheck.isSelected()) ? "true" : "false";
+	public boolean confirmTheDataInputFormat(String content, String startTime, String endTime, String remiderCheck) {
 
-		if (!checkTimeFormat(startTimeText.getText()) || !checkTimeFormat(endTimeText.getText())) {
-			showErrorMessageDialog("The time format is wrong.");
+		if (!checkTimeFormat(startTime) || !checkTimeFormat(endTime)) {
+			errorMessage = "The time format is wrong.";
+			return false;
+		} else if (!startTimeMustSmallerThanEndTime(startTime, endTime)) {
+			errorMessage = "The start time must smaller than end time.";
 			return false;
 		} else if (content.length() == 0) {
-			showErrorMessageDialog("Content is empty, please enter the schedule content.");
+			errorMessage = "Content is empty, please enter the schedule content.";
 			return false;
 		} else if (content.length() >= 20) {
-			showErrorMessageDialog("Content is too long, please limit to 20 words.");
+			errorMessage = "Content is too long, please limit to 20 words.";
 			return false;
 		}
 
+		String time = startTime + "-" + endTime;
 		setScheduleAfterUserInput(content, time, remiderCheck);
 		return true;
 	}
@@ -154,21 +160,36 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
-	public boolean checkTimeFormat(String time) {   // not a number
+	public boolean checkTimeFormat(String time) { // not a number
 		if (!time.matches("\\d+") || time.length() != 4)
 			return false;
+		else {
+			int hour = Integer.parseInt(String.valueOf(time.charAt(0)) + String.valueOf(time.charAt(1)));
+			int min = Integer.parseInt(String.valueOf(time.charAt(2)) + String.valueOf(time.charAt(3)));
+
+			if (hour > 24)
+				return false;
+			else if (min > 59)
+				return false;
+			else if (hour == 24 && min != 00)
+				return false;
+		}
 		return true;
 	}
 
-	public Schedule getScheduleInputInfo() {
+	public boolean startTimeMustSmallerThanEndTime(String startTime, String endTime) {
+		int startHour = Integer.parseInt(String.valueOf(startTime.charAt(0)) + String.valueOf(startTime.charAt(1)));
+		int endHour = Integer.parseInt(String.valueOf(endTime.charAt(0)) + String.valueOf(endTime.charAt(1)));
 
-		String content = textContentArea.getText();
-		String time = startTimeText.getText() + "-" + endTimeText.getText();
-		String RemiderCheck = (windowRemiderCheck.isSelected()) ? "true" : "false";
+		int startMin = Integer.parseInt(String.valueOf(startTime.charAt(2)) + String.valueOf(startTime.charAt(3)));
+		int endMin = Integer.parseInt(String.valueOf(endTime.charAt(2)) + String.valueOf(endTime.charAt(3)));
 
-		Schedule schedule = new ScheduleBuilder().year(year).month(month).day(day).isNotify(RemiderCheck).time(time)
-				.content(content).build();
-		return schedule;
+		if (startHour > endHour)
+			return false;
+		else if (startHour == endHour && startMin > endMin)
+			return false;
+
+		return true;
 	}
 
 	public static void main(String[] args) {
