@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,7 +14,8 @@ import org.junit.Test;
 import DB.AccountManager;
 import DB.CalendarManager;
 import DB.CostRecord;
-import DB.Schedule;
+import Model.Schedule;
+import Model.ScheduleBuilder;
 import View.AccountView;
 import junit.framework.Assert;
 
@@ -56,13 +58,14 @@ public class CalendarManagerTest {
 
 	@Test
 	public void addScheduleTest(){
-		Schedule schedule = new Schedule();
-		schedule.setYear(year);
-		schedule.setMonth(month);
-		schedule.setDay(day);
-		schedule.setContent("Test for add");
-		schedule.setTime("14:00-15:00");
-		schedule.setisNotify("true");
+		Schedule schedule = ScheduleBuilder.newInstance()
+				.year(year)
+				.month(month)
+				.day(day)
+				.content("Test for add")
+				.time("14:00-15:00")
+				.isNotify("true")
+				.build();
 		calendarManager.addSchedule(schedule);
 
 		Connection c = null;
@@ -108,13 +111,14 @@ public class CalendarManagerTest {
 	@Test
 	public void editScheduleTest(){
 		/*ADD THE TEST DATA FIRST*/
-		Schedule schedule = new Schedule();
-		schedule.setYear(year);
-		schedule.setMonth(month);
-		schedule.setDay(day);
-		schedule.setContent("Test for edit");
-		schedule.setTime("14:00-15:00");
-		schedule.setisNotify("true");
+		Schedule schedule = ScheduleBuilder.newInstance()
+				.year(year)
+				.month(month)
+				.day(day)
+				.content("Test for edit")
+				.time("14:00-15:00")
+				.isNotify("true")
+				.build();
 		calendarManager.addSchedule(schedule);
 
 		Connection c = null;
@@ -145,7 +149,14 @@ public class CalendarManagerTest {
 			}
 		}
 		/*THEN EDIT THE DATA CREATED ABOVE*/
-		schedule.setTime("16:00-17:00");
+		schedule = ScheduleBuilder.newInstance()
+				.year(year)
+				.month(month)
+				.day(day)
+				.content("Test for edit")
+				.time("16:00-17:00")
+				.isNotify("true")
+				.build();
 		calendarManager.editSchedule(schedule, ID);
 
 		Connection connForEdit = null;
@@ -180,13 +191,14 @@ public class CalendarManagerTest {
 	@Test
 	public void deleteScheduleTest(){
 		/*ADD THE TEST DATA FIRST*/
-		Schedule schedule = new Schedule();
-		schedule.setYear(year);
-		schedule.setMonth(month);
-		schedule.setDay(day);
-		schedule.setContent("Test for delete");
-		schedule.setTime("14:00-15:00");
-		schedule.setisNotify("true");
+		Schedule schedule = ScheduleBuilder.newInstance()
+				.year(year)
+				.month(month)
+				.day(day)
+				.content("Test for delete")
+				.time("14:00-15:00")
+				.isNotify("true")
+				.build();
 		calendarManager.addSchedule(schedule);
 
 		Connection c = null;
@@ -217,7 +229,9 @@ public class CalendarManagerTest {
 			}
 		}
 		/*THEN DELETE THE DATA CREATED ABOVE*/
-		calendarManager.deleteDaySchedule(ID);
+		calendarManager.setSchedule();
+		ArrayList<Schedule> data = calendarManager.getSchedule();
+		calendarManager.deleteDaySchedule(data.size());
 		Connection connForDelete = null;
 		Statement stmtForDelete = null;
 		try {
