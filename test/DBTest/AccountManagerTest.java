@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -250,4 +251,37 @@ public class AccountManagerTest {
 		}
 	}
 
+	@Test
+	public void getADayCostRecordIDListTest(){
+		/*ADD TEST DATA FIRST*/
+		CostRecord costRecord = new CostRecord();
+		costRecord.setYear(year);
+		costRecord.setMonth(month);
+		costRecord.setDay(day);
+		costRecord.setContent("Test for getDayCostRecord");
+		costRecord.setcost("100");
+		costRecord.settype("eat");
+		accountManager.addCostRecord(costRecord);
+
+		ArrayList<String> costRecordIDList = accountManager.getadayCostRecordIDList();
+		int actualListSize = costRecordIDList.size();
+		Assert.assertEquals(1, actualListSize);
+	}
+
+	@Test
+	public void getIDCostRecordTest(){
+		CostRecord costRecord = accountManager.getIdCostRecord("1");
+		String actualYear = costRecord.getYear();
+		String actualMonth = costRecord.getMonth();
+		String actualDay = costRecord.getDay();
+		String actualContent = costRecord.getContent();
+		String actualCost = costRecord.getcost();
+		String actualType = costRecord.gettype();
+		Assert.assertEquals("2018", actualYear);
+		Assert.assertEquals("4", actualMonth);
+		Assert.assertEquals("27", actualDay);
+		Assert.assertEquals("launch", actualContent);
+		Assert.assertEquals("300", actualCost);
+		Assert.assertEquals("eat", actualType);
+	}
 }

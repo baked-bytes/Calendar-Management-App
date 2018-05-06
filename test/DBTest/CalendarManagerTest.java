@@ -11,12 +11,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import DB.AccountManager;
 import DB.CalendarManager;
-import DB.CostRecord;
 import Model.Schedule;
 import Model.ScheduleBuilder;
-import View.AccountView;
+
 import junit.framework.Assert;
 
 public class CalendarManagerTest {
@@ -201,33 +199,6 @@ public class CalendarManagerTest {
 				.build();
 		calendarManager.addSchedule(schedule);
 
-		Connection c = null;
-		Statement stmt = null;
-		String ID = null;
-		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
-			System.out.println("Opened database successfully");
-
-			stmt = c.createStatement();
-			String sql = "SELECT * FROM Schedule WHERE CONTENT = \"Test for delete\";";
-			ResultSet rs = stmt.executeQuery(sql);
-			ID = rs.getString("ID");
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		} finally {
-			try {
-				if (stmt != null)
-					stmt.close();
-				if (c != null)
-					c.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		/*THEN DELETE THE DATA CREATED ABOVE*/
 		calendarManager.setSchedule();
 		ArrayList<Schedule> data = calendarManager.getSchedule();
