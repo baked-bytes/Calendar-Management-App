@@ -18,11 +18,9 @@ public class CalendarIDView extends JDialog implements ActionListener {
 	private String year;
 	private String month;
 	private String day;
-	private String id;
 
 	private JButton btnDelete;
 	private JButton btnEdit;
-	private JTextField textId;
 	private JComboBox<Integer> cbEditId;
 
 	private CalendarView calendarView;

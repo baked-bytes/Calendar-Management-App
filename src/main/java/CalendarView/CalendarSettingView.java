@@ -70,6 +70,10 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		if (schedule.getisNotify().equals("true"))
 			windowRemiderCheck.setSelected(true);
 	}
+	
+	public String getEerrorMessage() {
+	  return errorMessage;
+	}
 
 	public void init() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

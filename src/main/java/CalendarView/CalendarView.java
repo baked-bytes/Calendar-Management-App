@@ -40,7 +40,6 @@ public class CalendarView extends JFrame implements ActionListener {
 		String[][] mydata = new String[data.size()][4];
 
 		for (int i = 0; i < data.size(); i++) {
-//			mydata[i][0] = data.get(i).getId();
 			mydata[i][0] = Integer.toString(i+1);
 			mydata[i][1] = data.get(i).getTime();
 			mydata[i][2] = data.get(i).getContent();
