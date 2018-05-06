@@ -11,7 +11,6 @@ import javax.swing.border.EmptyBorder;
 import DB.AccountManager;
 import DB.CalendarManager;
 import DB.CostRecord;
-import DB.Schedule;
 
 import javax.swing.JTextField;
 import javax.swing.JTextArea;

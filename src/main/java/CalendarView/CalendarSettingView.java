@@ -1,4 +1,4 @@
-package View;
+package CalendarView;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -8,23 +8,26 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import DB.CalendarManager;
-import DB.Schedule;
+import Model.Schedule;
+import Model.ScheduleBuilder;
 
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JSplitPane;
 
 public class CalendarSettingView extends JFrame implements ActionListener {
 
-	private JPanel contentPane;
 	private JTextField startTimeText;
 	private JTextField endTimeText;
 	private JCheckBox windowRemiderCheck;
@@ -36,6 +39,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 	private String day;
 	private CalendarView calendarView;
 	private Schedule schedule = null;
+	private Schedule scheduleAfterUserInput;
 	boolean isEdit = false;
 
 	public CalendarSettingView(String year, String month, String day, CalendarView calendarView) {
@@ -53,18 +57,11 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		this.schedule = schedule;
 		this.calendarView = calendarView;
 		init();
-		setEditDataInText();
+		setEditDataInTextField();
 		isEdit = true;
 	}
 
-	public CalendarSettingView(String year, String month, String day) {
-		this.year = year;
-		this.month = month;
-		this.day = day;
-		init();
-	}
-
-	public void setEditDataInText() {
+	public void setEditDataInTextField() {
 		String[] parts = schedule.getTime().split("-");
 		startTimeText.setText(parts[0]);
 		endTimeText.setText(parts[1]);
@@ -73,10 +70,10 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 			windowRemiderCheck.setSelected(true);
 	}
 
-	public void init() {
+	public void init() {		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 191);
-		contentPane = new JPanel();
+		JPanel contentPane = new JPanel();
 		this.setTitle("Calendar " + year + " /" + month + " /" + day);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -92,7 +89,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		contentPane.add(btnOKButton, BorderLayout.SOUTH);
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
-		JLabel lblNewLabel = new JLabel("add time");
+		JLabel lblNewLabel = new JLabel("TIME ");
 		panel.add(lblNewLabel);
 
 		startTimeText = new JTextField();
@@ -113,37 +110,71 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		
-		CalendarManager calendarManager = new CalendarManager(year, month, day);
-		if (isEdit) {
-			calendarManager.editSchedule(getScheduleInputInfo(),schedule.getId() );
+		if (confirmTheDataInputFormat()) {
+			
+			CalendarManager calendarManager = new CalendarManager(year, month, day);
+
+			if (isEdit) {
+				calendarManager.editSchedule(scheduleAfterUserInput, schedule.getId());
+			} else {
+				calendarManager.addSchedule(scheduleAfterUserInput);
+			}
+			
 			calendarView.refreshTableData();
 			dispose();
-		} else {			
-			calendarManager.addSchedule(getScheduleInputInfo());
-			calendarView.refreshTableData();
-			dispose();
+		} // if
+	} // actionPerformed()
+
+	public boolean confirmTheDataInputFormat() {
+		String content = textContentArea.getText();
+		String time = startTimeText.getText() + "-" + endTimeText.getText();
+		String remiderCheck = (windowRemiderCheck.isSelected()) ? "true" : "false";
+
+		if (!checkTimeFormat(startTimeText.getText()) || !checkTimeFormat(endTimeText.getText())) {
+			showErrorMessageDialog("The time format is wrong.");
+			return false;
+		} else if (content.length() == 0) {
+			showErrorMessageDialog("Content is empty, please enter the schedule content.");
+			return false;
+		} else if (content.length() >= 20) {
+			showErrorMessageDialog("Content is too long, please limit to 20 words.");
+			return false;
 		}
+
+		setScheduleAfterUserInput(content, time, remiderCheck);
+		return true;
+	}
+
+	public void setScheduleAfterUserInput(String content, String time, String RemiderCheck) {
+		scheduleAfterUserInput = new ScheduleBuilder().year(year).month(month).day(day).isNotify(RemiderCheck)
+				.time(time).content(content).build();
+	}
+
+	public void showErrorMessageDialog(String message) {
+		JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+	}
+
+	public boolean checkTimeFormat(String time) {   // not a number
+		if (!time.matches("\\d+") || time.length() != 4)
+			return false;
+		return true;
 	}
 
 	public Schedule getScheduleInputInfo() {
-		Schedule schedule = new Schedule();
+
 		String content = textContentArea.getText();
 		String time = startTimeText.getText() + "-" + endTimeText.getText();
 		String RemiderCheck = (windowRemiderCheck.isSelected()) ? "true" : "false";
-		System.out.println("con = " + content + "time = " + time + " " + RemiderCheck);
-		schedule.setContent(content);
-		schedule.setTime(time);
-		schedule.setisNotify(RemiderCheck);
-		schedule.setDay(day);
-		schedule.setMonth(month);
-		schedule.setYear(year);
+
+		Schedule schedule = new ScheduleBuilder().year(year).month(month).day(day).isNotify(RemiderCheck).time(time)
+				.content(content).build();
 		return schedule;
 	}
 
 	public static void main(String[] args) {
-		CalendarSettingView calendarSettingView = new CalendarSettingView("2018", "4", "26");
-		calendarSettingView.setVisible(true);
-
+		// CalendarSettingView calendarSettingView = new
+		// CalendarSettingView("2018", "4", "26");
+		// calendarSettingView.setVisible(true);
 	}
 
 }
