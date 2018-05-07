@@ -43,11 +43,11 @@ public class CalendarView extends JFrame implements ActionListener {
 			mydata[i][0] = Integer.toString(i+1);
 			mydata[i][1] = data.get(i).getTime();
 			mydata[i][2] = data.get(i).getContent();
-			mydata[i][3] = data.get(i).getisNotify().equals("true") ?  "✓" : "X";
+			mydata[i][3] = data.get(i).getisNotify().equals("true") ?  "O" : "X";
 		}
 		return mydata;
 	}
-	
+
 	public ArrayList<Schedule> getTheDaySchedule(){
 		calendarManager.setSchedule();
 		ArrayList<Schedule> data = calendarManager.getSchedule();
@@ -64,7 +64,7 @@ public class CalendarView extends JFrame implements ActionListener {
 			mydata[0] = Integer.toString(i+1);
 			mydata[1] = data.get(i).getTime();
 			mydata[2] = data.get(i).getContent();
-			mydata[3] = data.get(i).getisNotify().equals("true") ? "✓" : "X";
+			mydata[3] = data.get(i).getisNotify().equals("true") ? "O" : "X";
 			model.addRow(mydata);
 		}
 		model.fireTableDataChanged();
@@ -72,14 +72,14 @@ public class CalendarView extends JFrame implements ActionListener {
 
 	public void init() {
 		setTitle("Calendar Table View");
-		this.getContentPane().setBackground(Color.YELLOW); 
+		this.getContentPane().setBackground(Color.YELLOW);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		String[] columns = { "ID", "TIME", "SCHEDULE", "REMIND" };
 
 		Object[][] data = getdata();
 
-		DefaultTableModel model = new DefaultTableModel(data, columns);		
-		
+		DefaultTableModel model = new DefaultTableModel(data, columns);
+
 		table = new JTable(model);
 		table.setEnabled(false); //
 

@@ -76,6 +76,7 @@ public class CalendarManagerTest {
 			stmt = c.createStatement();
 			String sql = "SELECT * FROM Schedule WHERE CONTENT = \"Test for add\";";
 			ResultSet rs = stmt.executeQuery(sql);
+			
 			String actualYear = rs.getString("YEAR");
 			String actualMonth = rs.getString("MONTH");
 			String actualDay = rs.getString("DAY");

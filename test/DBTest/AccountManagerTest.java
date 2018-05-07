@@ -11,9 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import AccountView.AccountView;
 import DB.AccountManager;
-import DB.CostRecord;
-import View.AccountView;
+import Model.CostRecord;
 import junit.framework.Assert;
 
 public class AccountManagerTest {

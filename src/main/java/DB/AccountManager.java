@@ -11,8 +11,10 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
-import View.AccountView;
-import View.AccountIDView;
+
+import AccountView.AccountIDView;
+import AccountView.AccountView;
+import Model.CostRecord;
 
 public class AccountManager {
 	
