@@ -34,8 +34,7 @@ public class CalendarView extends JFrame implements ActionListener {
 		init();
 	}
 
-	public String[][] getdata() {
-		ArrayList<Schedule> data = getTheDaySchedule();
+	public String[][] getdata( ArrayList<Schedule> data ) {		
 		scheduleDataSize = data.size();
 		String[][] mydata = new String[data.size()][4];
 
@@ -71,12 +70,13 @@ public class CalendarView extends JFrame implements ActionListener {
 	}
 
 	public void init() {
+		
 		setTitle("Calendar Table View");
 		this.getContentPane().setBackground(Color.YELLOW);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		String[] columns = { "ID", "TIME", "SCHEDULE", "REMIND" };
 
-		Object[][] data = getdata();
+		Object[][] data = getdata( getTheDaySchedule() );
 
 		DefaultTableModel model = new DefaultTableModel(data, columns);
 

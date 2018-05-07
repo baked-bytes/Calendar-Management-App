@@ -9,10 +9,6 @@ public class ScheduleBuilder {
 	private String id;
 	private String isNotify;
 
-	public static ScheduleBuilder newInstance() {
-		return new ScheduleBuilder();
-	}
-
 	public ScheduleBuilder year(String year) {
 		this.year = year;
 		return this;

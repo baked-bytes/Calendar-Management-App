@@ -156,7 +156,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 
 	public void setScheduleAfterUserInput(String content, String startTime, String endTime, String RemiderCheck) {
 		String time = startTime + "-" + endTime;
-		scheduleAfterUserInput = ScheduleBuilder.newInstance().year(year).month(month).day(day).isNotify(RemiderCheck)
+		scheduleAfterUserInput = new ScheduleBuilder().year(year).month(month).day(day).isNotify(RemiderCheck)
 				.time(time).content(content).build();
 	}
 
