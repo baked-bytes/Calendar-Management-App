@@ -57,29 +57,21 @@ public class CalendarSettingViewTest {
 	public void testConfirmTheDataInputFormat() {
 		boolean timeLengthIsOne = calendarSettingView.confirmTheDataInputFormat("test", "2000", "1", "true");
 		assertFalse(timeLengthIsOne);
-		assertEquals("The time format is wrong.", calendarSettingView.getEerrorMessage());
 		
 		boolean sartTimeCannotBeEnglish = calendarSettingView.confirmTheDataInputFormat("test", "ss", "1300", "true");
 		assertFalse(sartTimeCannotBeEnglish);
-		assertEquals("The time format is wrong.", calendarSettingView.getEerrorMessage());
 		
 		boolean startTimeIsGreaterThanEndTime = calendarSettingView.confirmTheDataInputFormat("test", "1310", "1300", "true");
 		assertFalse(startTimeIsGreaterThanEndTime);
-		assertEquals("The start time must smaller than end time.", calendarSettingView.getEerrorMessage());
 		
 		boolean endTimeCannotBeEnglish = calendarSettingView.confirmTheDataInputFormat("test", "1310", "ss", "true");
 		assertFalse(endTimeCannotBeEnglish);
-		assertEquals("The time format is wrong.", calendarSettingView.getEerrorMessage());
 		
 		boolean contentCannotBeEmpty = calendarSettingView.confirmTheDataInputFormat("", "1300", "1400", "true");
-		assertFalse(contentCannotBeEmpty);
-		assertEquals("Content is empty, please enter the schedule content.", calendarSettingView.getEerrorMessage());
-		
+		assertFalse(contentCannotBeEmpty);		
 		
 		boolean contentExceedLength = calendarSettingView.confirmTheDataInputFormat("hello, i am a test content and i am over 20 words.", "1300", "1400", "true");
-		assertFalse(contentExceedLength);
-		assertEquals("Content is too long, please limit to 20 words.", calendarSettingView.getEerrorMessage());
-		
+		assertFalse(contentExceedLength);		
 	}
 	
 	@Test
@@ -94,10 +86,4 @@ public class CalendarSettingViewTest {
 		assertTrue(test3);
 	}
 	
-	
-	
-	
-	
-	
-
 }
