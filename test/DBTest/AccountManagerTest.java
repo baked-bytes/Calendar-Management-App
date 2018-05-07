@@ -75,21 +75,17 @@ public class AccountManagerTest {
 			System.out.println("Opened database successfully");
 
 			stmt = c.createStatement();
-			String sql = "SELECT * FROM Account WHERE CONTENT = \"Test for add\";";
+			String sql = "SELECT * FROM Account WHERE YEAR = \"2018\" "
+					+ "AND MONTH = \"5\" "
+					+ "AND DAY = \"11\" "
+					+ "AND CONTENT = \"Test for add\" "
+					+ "AND COST = \"100\" "
+					+ "AND TYPE = \"eat\";";
 			ResultSet rs = stmt.executeQuery(sql);
-			String actualYear = rs.getString("YEAR");
-			String actualMonth = rs.getString("MONTH");
-			String actualDay = rs.getString("DAY");
-			String actualContent = rs.getString("CONTENT");
-			String actualCost = rs.getString("COST");
-			String actualType = rs.getString("TYPE");
-
-			Assert.assertEquals("2018", actualYear);
-			Assert.assertEquals("5", actualMonth);
-			Assert.assertEquals("11", actualDay);
-			Assert.assertEquals("Test for add", actualContent);
-			Assert.assertEquals("100", actualCost);
-			Assert.assertEquals("eat", actualType);
+			rs.getString("YEAR");//For checking whether the data exists
+		} catch (SQLException e){
+			Assert.fail("Adding costRecord was failed.");
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -128,7 +124,12 @@ public class AccountManagerTest {
 			System.out.println("Opened database successfully");
 
 			stmt = c.createStatement();
-			String sql = "SELECT * FROM Account WHERE CONTENT = \"Test for edit\";";
+			String sql = "SELECT * FROM Account WHERE YEAR = \"2018\" "
+					+ "AND MONTH = \"5\" "
+					+ "AND DAY = \"11\" "
+					+ "AND CONTENT = \"Test for edit\" "
+					+ "AND COST = \"100\" "
+					+ "AND TYPE = \"eat\";";
 			ResultSet rs = stmt.executeQuery(sql);
 			ID = rs.getString("ID");
 		} catch (Exception e) {
@@ -158,7 +159,12 @@ public class AccountManagerTest {
 			System.out.println("Opened database successfully");
 
 			stmtForEdit = connForEdit.createStatement();
-			String sql = "SELECT * FROM Account WHERE CONTENT = \"Test for edit\";";
+			String sql = "SELECT * FROM Account WHERE YEAR = \"2018\" "
+					+ "AND MONTH = \"5\" "
+					+ "AND DAY = \"11\" "
+					+ "AND CONTENT = \"Test for edit\" "
+					+ "AND COST = \"100\" "
+					+ "AND TYPE = \"living\";";
 			ResultSet rs = stmtForEdit.executeQuery(sql);
 			String actualType = rs.getString("TYPE");
 			Assert.assertEquals("living", actualType);
@@ -200,7 +206,12 @@ public class AccountManagerTest {
 			System.out.println("Opened database successfully");
 
 			stmt = c.createStatement();
-			String sql = "SELECT * FROM Account WHERE CONTENT = \"Test for delete\";";
+			String sql = "SELECT * FROM Account WHERE YEAR = \"2018\" "
+					+ "AND MONTH = \"5\" "
+					+ "AND DAY = \"11\" "
+					+ "AND CONTENT = \"Test for delete\" "
+					+ "AND COST = \"100\" "
+					+ "AND TYPE = \"eat\";";
 			ResultSet rs = stmt.executeQuery(sql);
 			ID = rs.getString("ID");
 		} catch (Exception e) {
@@ -229,7 +240,12 @@ public class AccountManagerTest {
 			System.out.println("Opened database successfully");
 
 			stmtForDelete = connForDelete.createStatement();
-			String sql = "SELECT * FROM Account WHERE CONTENT = \"Test for delete\";";
+			String sql = "SELECT * FROM Account WHERE YEAR = \"2018\" "
+					+ "AND MONTH = \"5\" "
+					+ "AND DAY = \"11\" "
+					+ "AND CONTENT = \"Test for delete\" "
+					+ "AND COST = \"100\" "
+					+ "AND TYPE = \"eat\";";
 			ResultSet rs = stmtForDelete.executeQuery(sql);
 			rs.getString("ID");//For Checking whether the data exists
 		} catch (SQLException e){
@@ -269,19 +285,61 @@ public class AccountManagerTest {
 	}
 
 	@Test
-	public void getIDCostRecordTest(){
-		CostRecord costRecord = accountManager.getIdCostRecord("1");
-		String actualYear = costRecord.getYear();
-		String actualMonth = costRecord.getMonth();
-		String actualDay = costRecord.getDay();
-		String actualContent = costRecord.getContent();
-		String actualCost = costRecord.getcost();
-		String actualType = costRecord.gettype();
+	public void getIDCostRecordTest(){/*ADD THE TEST DATA FIRST*/
+		CostRecord costRecord = new CostRecord();
+		costRecord.setYear(year);
+		costRecord.setMonth(month);
+		costRecord.setDay(day);
+		costRecord.setContent("Test for getIDCostRecord");
+		costRecord.setcost("100");
+		costRecord.settype("eat");
+		accountManager.addCostRecord(costRecord);
+
+		Connection c = null;
+		Statement stmt = null;
+		String ID = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
+			System.out.println("Opened database successfully");
+
+			stmt = c.createStatement();
+			String sql = "SELECT * FROM Account WHERE YEAR = \"2018\" "
+					+ "AND MONTH = \"5\" "
+					+ "AND DAY = \"11\" "
+					+ "AND CONTENT = \"Test for getIDCostRecord\" "
+					+ "AND COST = \"100\" "
+					+ "AND TYPE = \"eat\";";
+			ResultSet rs = stmt.executeQuery(sql);
+			ID = rs.getString("ID");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				if (c != null)
+					c.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		CostRecord actualCostRecord = accountManager.getIdCostRecord(ID);
+		String actualYear = actualCostRecord.getYear();
+		String actualMonth = actualCostRecord.getMonth();
+		String actualDay = actualCostRecord.getDay();
+		String actualContent = actualCostRecord.getContent();
+		String actualCost = actualCostRecord.getcost();
+		String actualType = actualCostRecord.gettype();
 		Assert.assertEquals("2018", actualYear);
-		Assert.assertEquals("4", actualMonth);
-		Assert.assertEquals("27", actualDay);
-		Assert.assertEquals("launch", actualContent);
-		Assert.assertEquals("300", actualCost);
+		Assert.assertEquals("5", actualMonth);
+		Assert.assertEquals("11", actualDay);
+		Assert.assertEquals("Test for getIDCostRecord", actualContent);
+		Assert.assertEquals("100", actualCost);
 		Assert.assertEquals("eat", actualType);
 	}
 }

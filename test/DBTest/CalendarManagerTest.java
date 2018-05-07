@@ -56,12 +56,12 @@ public class CalendarManagerTest {
 
 	@Test
 	public void addScheduleTest(){
-		Schedule schedule = ScheduleBuilder.newInstance()
+		Schedule schedule = new ScheduleBuilder()
 				.year(year)
 				.month(month)
 				.day(day)
 				.content("Test for add")
-				.time("14:00-15:00")
+				.time("1400-1500")
 				.isNotify("true")
 				.build();
 		calendarManager.addSchedule(schedule);
@@ -74,22 +74,17 @@ public class CalendarManagerTest {
 			System.out.println("Opened database successfully");
 
 			stmt = c.createStatement();
-			String sql = "SELECT * FROM Schedule WHERE CONTENT = \"Test for add\";";
+			String sql = "SELECT * FROM Schedule WHERE YEAR = \"2018\" "
+					+ "AND MONTH = \"5\" "
+					+ "AND DAY = \"11\" "
+					+ "AND CONTENT = \"Test for add\" "
+					+ "AND TIME = \"1400-1500\" "
+					+ "AND NOTIFY = \"true\";";
 			ResultSet rs = stmt.executeQuery(sql);
-			
-			String actualYear = rs.getString("YEAR");
-			String actualMonth = rs.getString("MONTH");
-			String actualDay = rs.getString("DAY");
-			String actualContent = rs.getString("CONTENT");
-			String actualTime = rs.getString("TIME");
-			String actualIsNotify = rs.getString("NOTIFY");
-
-			Assert.assertEquals("2018", actualYear);
-			Assert.assertEquals("5", actualMonth);
-			Assert.assertEquals("11", actualDay);
-			Assert.assertEquals("Test for add", actualContent);
-			Assert.assertEquals("14:00-15:00", actualTime);
-			Assert.assertEquals("true", actualIsNotify);
+			rs.getString("YEAR");//For checking whether the data exists
+		} catch (SQLException e) {
+			Assert.fail("Adding schedule was failed");
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -110,12 +105,12 @@ public class CalendarManagerTest {
 	@Test
 	public void editScheduleTest(){
 		/*ADD THE TEST DATA FIRST*/
-		Schedule schedule = ScheduleBuilder.newInstance()
+		Schedule schedule = new ScheduleBuilder()
 				.year(year)
 				.month(month)
 				.day(day)
 				.content("Test for edit")
-				.time("14:00-15:00")
+				.time("1400-1500")
 				.isNotify("true")
 				.build();
 		calendarManager.addSchedule(schedule);
@@ -129,7 +124,12 @@ public class CalendarManagerTest {
 			System.out.println("Opened database successfully");
 
 			stmt = c.createStatement();
-			String sql = "SELECT * FROM Schedule WHERE CONTENT = \"Test for edit\";";
+			String sql = "SELECT * FROM Schedule WHERE YEAR = \"2018\" "
+					+ "AND MONTH = \"5\" "
+					+ "AND DAY = \"11\" "
+					+ "AND CONTENT = \"Test for edit\" "
+					+ "AND TIME = \"1400-1500\" "
+					+ "AND NOTIFY = \"true\";";
 			ResultSet rs = stmt.executeQuery(sql);
 			ID = rs.getString("ID");
 		} catch (Exception e) {
@@ -148,12 +148,12 @@ public class CalendarManagerTest {
 			}
 		}
 		/*THEN EDIT THE DATA CREATED ABOVE*/
-		schedule = ScheduleBuilder.newInstance()
+		schedule = new ScheduleBuilder()
 				.year(year)
 				.month(month)
 				.day(day)
 				.content("Test for edit")
-				.time("16:00-17:00")
+				.time("1600-1700")
 				.isNotify("true")
 				.build();
 		calendarManager.editSchedule(schedule, ID);
@@ -166,10 +166,15 @@ public class CalendarManagerTest {
 			System.out.println("Opened database successfully");
 
 			stmtForEdit = connForEdit.createStatement();
-			String sql = "SELECT * FROM Schedule WHERE CONTENT = \"Test for edit\";";
+			String sql = "SELECT * FROM Schedule WHERE YEAR = \"2018\" "
+					+ "AND MONTH = \"5\" "
+					+ "AND DAY = \"11\" "
+					+ "AND CONTENT = \"Test for edit\" "
+					+ "AND TIME = \"1600-1700\" "
+					+ "AND NOTIFY = \"true\";";
 			ResultSet rs = stmtForEdit.executeQuery(sql);
 			String actualTime = rs.getString("TIME");
-			Assert.assertEquals("16:00-17:00", actualTime);
+			Assert.assertEquals("1600-1700", actualTime);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -190,12 +195,12 @@ public class CalendarManagerTest {
 	@Test
 	public void deleteScheduleTest(){
 		/*ADD THE TEST DATA FIRST*/
-		Schedule schedule = ScheduleBuilder.newInstance()
+		Schedule schedule = new ScheduleBuilder()
 				.year(year)
 				.month(month)
 				.day(day)
 				.content("Test for delete")
-				.time("14:00-15:00")
+				.time("1400-1500")
 				.isNotify("true")
 				.build();
 		calendarManager.addSchedule(schedule);
@@ -212,7 +217,12 @@ public class CalendarManagerTest {
 			System.out.println("Opened database successfully");
 
 			stmtForDelete = connForDelete.createStatement();
-			String sql = "SELECT * FROM Schedule WHERE CONTENT = \"Test for delete\";";
+			String sql = "SELECT * FROM Schedule WHERE YEAR = \"2018\" "
+					+ "AND MONTH = \"5\" "
+					+ "AND DAY = \"11\" "
+					+ "AND CONTENT = \"Test for delete\" "
+					+ "AND TIME = \"1400-1500\" "
+					+ "AND NOTIFY = \"true\";";
 			ResultSet rs = stmtForDelete.executeQuery(sql);
 			rs.getString("ID");//For Checking whether the data exists
 		} catch (SQLException e){
