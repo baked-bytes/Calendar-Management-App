@@ -55,34 +55,34 @@ public class CalendarSettingViewTest {
 	
 	@Test
 	public void testConfirmTheDataInputFormat() {
-		boolean timeLengthIsOne = calendarSettingView.confirmTheDataInputFormat("test", "2000", "1", "true");
+		boolean timeLengthIsOne = calendarSettingView.confirmTheDataInputFormat("test", "2000", "1");
 		assertFalse(timeLengthIsOne);
 		
-		boolean sartTimeCannotBeEnglish = calendarSettingView.confirmTheDataInputFormat("test", "ss", "1300", "true");
+		boolean sartTimeCannotBeEnglish = calendarSettingView.confirmTheDataInputFormat("test", "ss", "1300");
 		assertFalse(sartTimeCannotBeEnglish);
 		
-		boolean startTimeIsGreaterThanEndTime = calendarSettingView.confirmTheDataInputFormat("test", "1310", "1300", "true");
+		boolean startTimeIsGreaterThanEndTime = calendarSettingView.confirmTheDataInputFormat("test", "1310", "1300");
 		assertFalse(startTimeIsGreaterThanEndTime);
 		
-		boolean endTimeCannotBeEnglish = calendarSettingView.confirmTheDataInputFormat("test", "1310", "ss", "true");
+		boolean endTimeCannotBeEnglish = calendarSettingView.confirmTheDataInputFormat("test", "1310", "ss");
 		assertFalse(endTimeCannotBeEnglish);
 		
-		boolean contentCannotBeEmpty = calendarSettingView.confirmTheDataInputFormat("", "1300", "1400", "true");
+		boolean contentCannotBeEmpty = calendarSettingView.confirmTheDataInputFormat("", "1300", "1400");
 		assertFalse(contentCannotBeEmpty);		
 		
-		boolean contentExceedLength = calendarSettingView.confirmTheDataInputFormat("hello, i am a test content and i am over 20 words.", "1300", "1400", "true");
+		boolean contentExceedLength = calendarSettingView.confirmTheDataInputFormat("hello, i am a test content and i am over 20 words.", "1300", "1400");
 		assertFalse(contentExceedLength);		
 	}
 	
 	@Test
 	public void testConfirmTheDataInputFormatTrue(){
-		boolean test1 = calendarSettingView.confirmTheDataInputFormat("test~", "1300", "1400", "true");
+		boolean test1 = calendarSettingView.confirmTheDataInputFormat("test~", "1300", "1400");
 		assertTrue(test1);
 		
-		boolean test2 = calendarSettingView.confirmTheDataInputFormat("test~", "2230", "2300", "false");
+		boolean test2 = calendarSettingView.confirmTheDataInputFormat("test~", "2230", "2300");
 		assertTrue(test2);
 		
-		boolean test3 = calendarSettingView.confirmTheDataInputFormat("this is a test", "1800", "2400", "false");
+		boolean test3 = calendarSettingView.confirmTheDataInputFormat("this is a test", "1800", "2400");
 		assertTrue(test3);
 	}
 	
