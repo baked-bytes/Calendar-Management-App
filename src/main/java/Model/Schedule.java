@@ -43,9 +43,40 @@ public class Schedule {
 		return content;
 	}
 
-
 	public String getTime() {
 		return time;
+	}
+
+	public String getIsNotify() {
+		return isNotify;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public void setDay(String day) {
+		this.day = day;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setIsNotify(String isNotify) {
+		this.isNotify = isNotify;
 	}
 
 

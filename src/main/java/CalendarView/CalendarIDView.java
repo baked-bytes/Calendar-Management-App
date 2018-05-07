@@ -44,7 +44,7 @@ public class CalendarIDView extends JDialog implements ActionListener {
 	}
 
 	public void init() {
-		setBounds(100, 100, 300, 200);
+		setBounds(100, 100, 255, 165);
 		setTitle("Select ID number");
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
