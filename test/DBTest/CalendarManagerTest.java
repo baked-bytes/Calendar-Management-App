@@ -148,14 +148,7 @@ public class CalendarManagerTest {
 			}
 		}
 		/*THEN EDIT THE DATA CREATED ABOVE*/
-		schedule = new ScheduleBuilder()
-				.year(year)
-				.month(month)
-				.day(day)
-				.content("Test for edit")
-				.time("1600-1700")
-				.isNotify("true")
-				.build();
+		schedule.setTime("1600-1700");
 		calendarManager.editSchedule(schedule, ID);
 
 		Connection connForEdit = null;
