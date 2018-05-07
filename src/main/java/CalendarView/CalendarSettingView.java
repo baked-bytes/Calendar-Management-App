@@ -1,7 +1,6 @@
 package CalendarView;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,16 +14,12 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JSplitPane;
 
 public class CalendarSettingView extends JFrame implements ActionListener {
 
@@ -38,7 +33,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 	private String month;
 	private String day;
 	private CalendarView calendarView;
-	private Schedule schedule = null;
+	private Schedule scheduleToBeEdited = null;
 	private Schedule scheduleAfterUserInput;
 	boolean isEdit = false;
 	private String errorMessage;
@@ -55,7 +50,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		this.year = year;
 		this.month = month;
 		this.day = day;
-		this.schedule = schedule;
+		this.scheduleToBeEdited = schedule;
 		this.calendarView = calendarView;
 		init();
 		setEditDataInTextField();
@@ -63,14 +58,14 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 	}
 
 	public void setEditDataInTextField() {
-		String[] parts = schedule.getTime().split("-");
+		String[] parts = scheduleToBeEdited.getTime().split("-");
 		startTimeText.setText(parts[0]);
 		endTimeText.setText(parts[1]);
-		textContentArea.setText(schedule.getContent());
-		if (schedule.getisNotify().equals("true"))
+		textContentArea.setText(scheduleToBeEdited.getContent());
+		if (scheduleToBeEdited.getisNotify().equals("true"))
 			windowRemiderCheck.setSelected(true);
 	}
-	
+
 	public void init() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 250);
@@ -121,8 +116,11 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		else {
 			CalendarManager calendarManager = new CalendarManager(year, month, day);
 			if (isEdit) {
-				calendarManager.editSchedule(scheduleAfterUserInput, schedule.getId());
+				setScheduleAfterUserInputTheEditContent(userInputContent, userInputStartTime, userInputEndTime,
+						userRemiderCheck);
+				calendarManager.editSchedule(scheduleToBeEdited, scheduleToBeEdited.getId());
 			} else {
+				setScheduleAfterUserInput(userInputContent, userInputStartTime, userInputEndTime, userRemiderCheck);
 				calendarManager.addSchedule(scheduleAfterUserInput);
 			}
 			calendarView.refreshTableData();
@@ -145,14 +143,20 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 			errorMessage = "Content is too long, please limit to 20 words.";
 			return false;
 		}
-
-		String time = startTime + "-" + endTime;
-		setScheduleAfterUserInput(content, time, remiderCheck);
 		return true;
 	}
 
-	public void setScheduleAfterUserInput(String content, String time, String RemiderCheck) {
-		scheduleAfterUserInput = new ScheduleBuilder().year(year).month(month).day(day).isNotify(RemiderCheck)
+	public void setScheduleAfterUserInputTheEditContent(String content, String startTime, String endTime,
+			String RemiderCheck) {
+		String time = startTime + "-" + endTime;
+		scheduleToBeEdited.setContent(content);
+		scheduleToBeEdited.setTime(time);
+		scheduleToBeEdited.setIsNotify(RemiderCheck);
+	}
+
+	public void setScheduleAfterUserInput(String content, String startTime, String endTime, String RemiderCheck) {
+		String time = startTime + "-" + endTime;
+		scheduleAfterUserInput = ScheduleBuilder.newInstance().year(year).month(month).day(day).isNotify(RemiderCheck)
 				.time(time).content(content).build();
 	}
 
@@ -191,11 +195,4 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 
 		return true;
 	}
-
-	public static void main(String[] args) {
-		// CalendarSettingView calendarSettingView = new
-		// CalendarSettingView("2018", "4", "26");
-		// calendarSettingView.setVisible(true);
-	}
-
 }
