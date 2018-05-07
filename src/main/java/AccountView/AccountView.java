@@ -19,6 +19,7 @@ public class AccountView extends JFrame{
         table.setFillsViewportHeight(true);
         table.setRowHeight(30);
         table.setFont(new Font("Serif", Font.BOLD, 20));
+        table.setEnabled(false);
         JLabel lblHeading = new JLabel("current day " + year + "/"+ month + "/" + day);
         lblHeading.setFont(new Font("Arial",Font.TRUETYPE_FONT,24));
         getContentPane().setLayout(new BorderLayout());

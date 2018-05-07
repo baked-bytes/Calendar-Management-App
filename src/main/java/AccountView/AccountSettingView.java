@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import DB.AccountManager;
 import Model.CostRecord;
+import Model.CostRecordBuilder;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -91,7 +92,7 @@ public class AccountSettingView extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		AccountManager accountManager = new AccountManager(year, month, day);
-		if(!getCostRecordInputInfo().getContent().isEmpty() && !getCostRecordInputInfo().getcost().isEmpty()){
+		if(!getCostRecordInputInfo().getContent().isEmpty() && !getCostRecordInputInfo().getcost().isEmpty() && getCostRecordInputInfo().getcost().length() <= 12 && getCostRecordInputInfo().getContent().length() <= 20 && getCostRecordInputInfo().getcost().matches("\\d+")){
 			if (isEdit) {
 				accountManager.editCostRecord(getCostRecordInputInfo(),costRecord.getId());
 				dispose();
@@ -101,22 +102,20 @@ public class AccountSettingView extends JFrame implements ActionListener {
 			}
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "Content is empty or Cost is empty", "Error", JOptionPane.ERROR_MESSAGE);
+			if(getCostRecordInputInfo().getContent().isEmpty() || getCostRecordInputInfo().getcost().isEmpty())
+				JOptionPane.showMessageDialog(null, "Content is empty or Cost is empty", "Error", JOptionPane.ERROR_MESSAGE);
+			else if(! getCostRecordInputInfo().getcost().matches("\\d+"))
+				JOptionPane.showMessageDialog(null, "Cost format error", "Error", JOptionPane.ERROR_MESSAGE);
+			else
+				JOptionPane.showMessageDialog(null, "Cost length > 12 or Content length > 20", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	public CostRecord getCostRecordInputInfo() {
-		CostRecord costRecord = new CostRecord();
 		String content = textContentArea.getText();
 		String cost = costText.getText();
 		String type = typeBox.getSelectedItem().toString();
-		System.out.println("con = " + content + "type = " + type + " " + cost);
-		costRecord.setContent(content);
-		costRecord.settype(type);
-		costRecord.setcost(cost);
-		costRecord.setDay(day);
-		costRecord.setMonth(month);
-		costRecord.setYear(year);
+		CostRecord costRecord = new CostRecordBuilder().year(year).month(month).day(day).cost(cost).type(type).content(content).build();
 		return costRecord;
 	}
 

@@ -60,6 +60,7 @@ public class AccountIDView extends JDialog implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		AccountManager accountManager = new AccountManager(year, month, day);
+		adayCostRecordIDList = accountManager.getadayCostRecordIDList();
 		System.out.println(idBox.getSelectedIndex());
 		String id = adayCostRecordIDList.get(idBox.getSelectedIndex());
 		if (e.getSource() == btnDelete) {
