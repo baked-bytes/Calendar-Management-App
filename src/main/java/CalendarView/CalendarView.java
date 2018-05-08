@@ -115,7 +115,6 @@ public class CalendarView extends JFrame implements ActionListener {
 		editButton.addActionListener(this);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addButton) {
 			CalendarSettingView calendarSettingView = new CalendarSettingView(year, month, day, this);

@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import AccountView.AccountIDView;
 import AccountView.AccountView;
 import Model.CostRecord;
+import Model.CostRecordBuilder;
 
 public class AccountManager {
 	
@@ -123,7 +124,7 @@ public class AccountManager {
 	public CostRecord getIdCostRecord(String id){
 		Connection c = null;
 		Statement stmt = null;
-		CostRecord costRecord = new CostRecord();
+		CostRecord costRecord = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
@@ -134,13 +135,7 @@ public class AccountManager {
 			String sql = "SELECT * FROM Account where id='" + id +"';";
 			
 			ResultSet rs = stmt.executeQuery(sql);
-			costRecord.setDay(rs.getString("day"));
-			costRecord.setYear(rs.getString("year"));
-			costRecord.setMonth(rs.getString("month"));
-			costRecord.setcost(rs.getString("cost"));
-			costRecord.settype(rs.getString("type"));
-			costRecord.setContent(rs.getString("CONTENT"));
-			costRecord.setId(rs.getString("id"));	
+			costRecord = new CostRecordBuilder().year(rs.getString("year")).month(rs.getString("month")).day(rs.getString("day")).cost(rs.getString("cost")).type(rs.getString("type")).content(rs.getString("CONTENT")).id(rs.getString("id")).build();	
 			rs.close();
 			stmt.close();
 			c.close();
@@ -202,14 +197,14 @@ public class AccountManager {
 	}
 
 	public static void main(String args[]) {
-		AccountManager jd = new AccountManager("2018", "4", "27");
-		CostRecord costRecord = new CostRecord();
-		costRecord.setDay("30");
-		costRecord.setYear("2018");
-		costRecord.setMonth("4");
-		costRecord.setcost("400");
-		costRecord.settype("eat");
-		costRecord.setContent("dinner");
-		jd.addCostRecord(costRecord);
+//		AccountManager jd = new AccountManager("2018", "4", "27");
+//		CostRecord costRecord = new CostRecord();
+//		costRecord.setDay("30");
+//		costRecord.setYear("2018");
+//		costRecord.setMonth("4");
+//		costRecord.setcost("400");
+//		costRecord.settype("eat");
+//		costRecord.setContent("dinner");
+//		jd.addCostRecord(costRecord);
 	}
 }

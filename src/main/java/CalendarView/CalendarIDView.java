@@ -49,7 +49,7 @@ public class CalendarIDView extends JDialog implements ActionListener {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 
-		cbEditId = new JComboBox<>(setDayScheduleItemSize());
+		cbEditId = new JComboBox<Integer>(setDayScheduleItemSize());
 		cbEditId.setBounds(70, 30, 75, 30);
 		getContentPane().add(cbEditId);
 
@@ -64,10 +64,9 @@ public class CalendarIDView extends JDialog implements ActionListener {
 		getContentPane().add(btnEdit);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		CalendarManager calendarManager = new CalendarManager(year, month, day);
-		int chosenId = (int) cbEditId.getSelectedItem();
+		int chosenId = Integer.parseInt(cbEditId.getSelectedItem().toString()) ;
 
 		if (e.getSource() == btnDelete) {
 			calendarManager.deleteDaySchedule(chosenId);

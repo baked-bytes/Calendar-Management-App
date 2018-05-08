@@ -9,6 +9,16 @@ public class CostRecord {
 	private String id;
 	private String cost;
 	
+	public CostRecord( String year,String month,String day,String content,String type,String id,String cost ){
+		  this.year = year;
+		  this.month = month;
+		  this.content = content;
+		  this.type = type;
+		  this.id = id;
+		  this.cost = cost;
+		  this.day = day;
+		}
+	
 	public String getId(){
 	  return id;
 	}

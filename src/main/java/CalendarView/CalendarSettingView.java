@@ -111,7 +111,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		String userInputEndTime = endTimeText.getText();
 		String userRemiderCheck = (windowRemiderCheck.isSelected()) ? "true" : "false";
 
-		if (!confirmTheDataInputFormat(userInputContent, userInputStartTime, userInputEndTime, userRemiderCheck))
+		if (!confirmTheDataInputFormat(userInputContent, userInputStartTime, userInputEndTime))
 			showErrorMessageDialog(errorMessage);
 		else {
 			CalendarManager calendarManager = new CalendarManager(year, month, day);
@@ -128,7 +128,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		}
 	} // actionPerformed()
 
-	public boolean confirmTheDataInputFormat(String content, String startTime, String endTime, String remiderCheck) {
+	public boolean confirmTheDataInputFormat(String content, String startTime, String endTime ) {
 
 		if (!checkTimeFormat(startTime) || !checkTimeFormat(endTime)) {
 			errorMessage = "The time format is wrong.";
