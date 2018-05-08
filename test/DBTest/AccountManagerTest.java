@@ -14,6 +14,7 @@ import org.junit.Test;
 import AccountView.AccountView;
 import DB.AccountManager;
 import Model.CostRecord;
+import Model.CostRecordBuilder;
 import junit.framework.Assert;
 
 public class AccountManagerTest {
@@ -58,13 +59,15 @@ public class AccountManagerTest {
 
 	@Test
 	public void addCostRecordTest(){
-		CostRecord costRecord = new CostRecord();
-		costRecord.setYear(year);
-		costRecord.setMonth(month);
-		costRecord.setDay(day);
-		costRecord.setContent("Test for add");
-		costRecord.setcost("100");
-		costRecord.settype("eat");
+		CostRecord costRecord = new CostRecordBuilder()
+					.year(year)
+					.month(month)
+					.day(day)
+					.content("Test for add")
+					.cost("100")
+					.type("eat")
+					.build();
+
 		accountManager.addCostRecord(costRecord);
 
 		Connection c = null;
@@ -106,13 +109,15 @@ public class AccountManagerTest {
 	@Test
 	public void editCostRecordTest(){
 		/*ADD THE TEST DATA FIRST*/
-		CostRecord costRecord = new CostRecord();
-		costRecord.setYear(year);
-		costRecord.setMonth(month);
-		costRecord.setDay(day);
-		costRecord.setContent("Test for edit");
-		costRecord.setcost("100");
-		costRecord.settype("eat");
+		CostRecord costRecord = new CostRecordBuilder()
+				.year(year)
+				.month(month)
+				.day(day)
+				.content("Test for edit")
+				.cost("100")
+				.type("eat")
+				.build();
+
 		accountManager.addCostRecord(costRecord);
 
 		Connection c = null;
@@ -188,13 +193,15 @@ public class AccountManagerTest {
 	@Test
 	public void deleteCostRecordTest(){
 		/*ADD THE TEST DATA FIRST*/
-		CostRecord costRecord = new CostRecord();
-		costRecord.setYear(year);
-		costRecord.setMonth(month);
-		costRecord.setDay(day);
-		costRecord.setContent("Test for delete");
-		costRecord.setcost("100");
-		costRecord.settype("eat");
+		CostRecord costRecord = new CostRecordBuilder()
+				.year(year)
+				.month(month)
+				.day(day)
+				.content("Test for delete")
+				.cost("100")
+				.type("eat")
+				.build();
+
 		accountManager.addCostRecord(costRecord);
 
 		Connection c = null;
@@ -270,13 +277,15 @@ public class AccountManagerTest {
 	@Test
 	public void getADayCostRecordIDListTest(){
 		/*ADD TEST DATA FIRST*/
-		CostRecord costRecord = new CostRecord();
-		costRecord.setYear(year);
-		costRecord.setMonth(month);
-		costRecord.setDay(day);
-		costRecord.setContent("Test for getDayCostRecord");
-		costRecord.setcost("100");
-		costRecord.settype("eat");
+		CostRecord costRecord = new CostRecordBuilder()
+				.year(year)
+				.month(month)
+				.day(day)
+				.content("Test for getAdayCostRecordIDList")
+				.cost("100")
+				.type("eat")
+				.build();
+
 		accountManager.addCostRecord(costRecord);
 
 		ArrayList<String> costRecordIDList = accountManager.getadayCostRecordIDList();
@@ -286,18 +295,19 @@ public class AccountManagerTest {
 
 	@Test
 	public void getIDCostRecordTest(){/*ADD THE TEST DATA FIRST*/
-		CostRecord costRecord = new CostRecord();
-		costRecord.setYear(year);
-		costRecord.setMonth(month);
-		costRecord.setDay(day);
-		costRecord.setContent("Test for getIDCostRecord");
-		costRecord.setcost("100");
-		costRecord.settype("eat");
+		CostRecord costRecord = new CostRecordBuilder()
+				.year(year)
+				.month(month)
+				.day(day)
+				.content("Test for getIDCostRecord")
+				.cost("100")
+				.type("eat")
+				.build();
+
 		accountManager.addCostRecord(costRecord);
 
 		Connection c = null;
 		Statement stmt = null;
-		String ID = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
@@ -311,7 +321,7 @@ public class AccountManagerTest {
 					+ "AND COST = \"100\" "
 					+ "AND TYPE = \"eat\";";
 			ResultSet rs = stmt.executeQuery(sql);
-			ID = rs.getString("ID");
+			costRecord.setId(rs.getString("ID"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -328,7 +338,7 @@ public class AccountManagerTest {
 			}
 		}
 
-		CostRecord actualCostRecord = accountManager.getIdCostRecord(ID);
+		CostRecord actualCostRecord = accountManager.getIdCostRecord(costRecord.getId());
 		String actualYear = actualCostRecord.getYear();
 		String actualMonth = actualCostRecord.getMonth();
 		String actualDay = actualCostRecord.getDay();
