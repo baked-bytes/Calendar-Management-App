@@ -24,6 +24,7 @@ public class CalendarView extends JFrame implements ActionListener {
 
 	private int scheduleDataSize;
 	CalendarManager calendarManager;
+	CalendarSettingView calendarSettingView = null;
 
 	public CalendarView(String year, String month, String day) {
 		this.year = year;
@@ -34,20 +35,20 @@ public class CalendarView extends JFrame implements ActionListener {
 		init();
 	}
 
-	public String[][] getdata( ArrayList<Schedule> data ) {		
+	public String[][] getdata(ArrayList<Schedule> data) {
 		scheduleDataSize = data.size();
 		String[][] mydata = new String[data.size()][4];
 
 		for (int i = 0; i < data.size(); i++) {
-			mydata[i][0] = Integer.toString(i+1);
+			mydata[i][0] = Integer.toString(i + 1);
 			mydata[i][1] = data.get(i).getTime();
 			mydata[i][2] = data.get(i).getContent();
-			mydata[i][3] = data.get(i).getisNotify().equals("true") ?  "O" : "X";
+			mydata[i][3] = data.get(i).getisNotify().equals("true") ? "O" : "X";
 		}
 		return mydata;
 	}
 
-	public ArrayList<Schedule> getTheDaySchedule(){
+	public ArrayList<Schedule> getTheDaySchedule() {
 		calendarManager.setSchedule();
 		ArrayList<Schedule> data = calendarManager.getSchedule();
 		return data;
@@ -60,7 +61,7 @@ public class CalendarView extends JFrame implements ActionListener {
 		scheduleDataSize = data.size();
 		String[] mydata = new String[4];
 		for (int i = 0; i < data.size(); i++) {
-			mydata[0] = Integer.toString(i+1);
+			mydata[0] = Integer.toString(i + 1);
 			mydata[1] = data.get(i).getTime();
 			mydata[2] = data.get(i).getContent();
 			mydata[3] = data.get(i).getisNotify().equals("true") ? "O" : "X";
@@ -70,13 +71,13 @@ public class CalendarView extends JFrame implements ActionListener {
 	}
 
 	public void init() {
-		
+
 		setTitle("Calendar Table View");
 		this.getContentPane().setBackground(Color.YELLOW);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		String[] columns = { "ID", "TIME", "SCHEDULE", "REMIND" };
 
-		Object[][] data = getdata( getTheDaySchedule() );
+		Object[][] data = getdata(getTheDaySchedule());
 
 		DefaultTableModel model = new DefaultTableModel(data, columns);
 
@@ -88,7 +89,7 @@ public class CalendarView extends JFrame implements ActionListener {
 		table.setRowHeight(50);
 		table.setFont(new Font("Serif", Font.BOLD, 20));
 
-		JLabel lblHeading = new JLabel( year + "/" + month + "/" + day);
+		JLabel lblHeading = new JLabel(year + "/" + month + "/" + day);
 		lblHeading.setForeground(Color.BLUE);
 		lblHeading.setFont(new Font("Arial", Font.TRUETYPE_FONT, 24));
 
@@ -115,20 +116,19 @@ public class CalendarView extends JFrame implements ActionListener {
 		editButton.addActionListener(this);
 	}
 
+
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addButton) {
-			CalendarSettingView calendarSettingView = new CalendarSettingView(year, month, day, this);
-			calendarSettingView.setVisible(true);
-			calendarSettingView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			if (calendarSettingView == null || !calendarSettingView.isDisplayable()) {
+				calendarSettingView = new CalendarSettingView(year, month, day, this);
+				calendarSettingView.setVisible(true);
+				calendarSettingView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			} 
 		} else if (e.getSource() == editButton) {
 			CalendarIDView dialog = new CalendarIDView(year, month, day, this, scheduleDataSize);
 			dialog.setModal(true);
 			dialog.setVisible(true);
 		}
 	}
-
-//	public static void main(String[] args) {
-//		calendarView = new CalendarView("2018", "4", "26");
-//		calendarView.getdata();
-//	}
 }
