@@ -33,7 +33,6 @@ public class FunctionChosenView extends JDialog implements ActionListener{
 	public void init(){
 		setBounds(100, 100, 255, 70);
 		setTitle("current day " + year + "/" + month + "/" + day);
-		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		btncalendar = new JButton("Calendar");
 		btncalendar.addActionListener(this);

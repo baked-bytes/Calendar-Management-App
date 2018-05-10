@@ -10,6 +10,7 @@ public class AccountView extends JFrame{
 	private String month;
 	private String day;
 	public static JTable table;
+	private AccountSettingView accountSettingView = null ; 
 	public AccountView(final String year, final String month, final String day) {
 		this.year = year;
 		this.month = month;
@@ -39,14 +40,18 @@ public class AccountView extends JFrame{
         init();
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	AccountSettingView accountSettingView = new AccountSettingView(year,month,day);
-            	accountSettingView.setVisible(true);
-            	accountSettingView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            	if(accountSettingView == null || !accountSettingView.isDisplayable()) {
+            		accountSettingView = new AccountSettingView(year,month,day);
+                	accountSettingView.setModalExclusionType(getModalExclusionType());
+                	accountSettingView.setVisible(true);
+                	accountSettingView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            	}
             }
         });
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	AccountIDView accountIDView = new AccountIDView(year,month,day);
+            	accountIDView.setModal(true);
             	accountIDView.setVisible(true);
             	accountIDView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             }

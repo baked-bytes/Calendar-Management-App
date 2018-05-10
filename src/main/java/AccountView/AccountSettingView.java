@@ -62,7 +62,7 @@ public class AccountSettingView extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 191);
 		contentPane = new JPanel();
-		this.setTitle("Calendar " + year + " /" + month + " /" + day);
+		this.setTitle(year + " /" + month + " /" + day + " Account");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
