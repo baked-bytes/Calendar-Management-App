@@ -18,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Report.DetailReportView;
+
 public class IndexPage extends JFrame implements ActionListener {
 
 	private JComboBox MonthBox = new JComboBox();
@@ -28,6 +30,7 @@ public class IndexPage extends JFrame implements ActionListener {
 
 	private JButton button_ok = new JButton("check");
 	private JButton button_today = new JButton("today");
+	private JButton button_report = new JButton("Report");
 
 	private Date now_date = new Date();
 
@@ -58,6 +61,7 @@ public class IndexPage extends JFrame implements ActionListener {
 		MonthLabel.setFont(font);
 		button_ok.setFont(font);
 		button_today.setFont(font);
+		button_report.setFont(font);
 
 		for (int i = now_year; i <= now_year + 1; i++) {
 			YearBox.addItem(i + "");
@@ -76,9 +80,11 @@ public class IndexPage extends JFrame implements ActionListener {
 		panel_ym.add(MonthBox);
 		panel_ym.add(button_ok);
 		panel_ym.add(button_today);
+		panel_ym.add(button_report);
 
 		button_ok.addActionListener(this);
 		button_today.addActionListener(this);
+		button_report.addActionListener(this);
 
 		JPanel panel_day = new JPanel();
 		// 7*7
@@ -191,11 +197,13 @@ public class IndexPage extends JFrame implements ActionListener {
 			YearBox.setSelectedIndex(0);
 			MonthBox.setSelectedIndex(now_month);
 			this.paintDay();
+		} else if (e.getSource() == button_report) {
+			DetailReportView detailReportView = new DetailReportView(YearBox.getSelectedItem().toString(),
+					MonthBox.getSelectedItem().toString());
+			detailReportView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		} else {
 			for (int i = 0; i < 42; i++) {
-
 				if (e.getSource() == button_day[i]) {
-
 					System.out.println(
 							YearBox.getSelectedItem().toString() + " " + MonthBox.getSelectedItem().toString());
 					Object source = e.getSource();
