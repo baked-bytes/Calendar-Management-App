@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import CalendarView.WindosReminder;
 import Model.Schedule;
 import Model.ScheduleBuilder;
 
@@ -73,12 +74,75 @@ public class CalendarManager {
 				+ "','" + data.getMonth() + "','" + data.getDay() + "','" + data.getContent() + "','" + data.getTime()
 				+ "','" + data.getisNotify() + "\');";
 		executeSQL(sql);
+		if(data.getisNotify() == "true") {
+			Connection c = null;
+			Statement stmt = null;
+			Schedule reminderdata = null;
+			WindosReminder testing = null;
+			try {
+				Class.forName("org.sqlite.JDBC");
+				c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
+				c.setAutoCommit(false);
+				System.out.println("Opened database successfully");
+
+				stmt = c.createStatement();
+				String sql2 = "SELECT * FROM Schedule";
+
+				ResultSet rs = stmt.executeQuery(sql2);
+				while (rs.next()) {
+					 reminderdata = new ScheduleBuilder().year(year).month(month).day(day)
+							.isNotify(rs.getString("notify")).time(rs.getString("time")).id(rs.getString("id"))
+							.content(rs.getString("CONTENT")).build();
+
+				}
+				rs.close();
+				stmt.close();
+				c.close();
+			} catch (Exception e) {
+				System.err.println(e.getClass().getName() + ": " + e.getMessage());
+				System.exit(0);
+			}
+			System.out.println(reminderdata.getId());
+			testing = new WindosReminder(reminderdata);
+			testing.setReminder();
+		}
 	}
 
 	public void editSchedule(Schedule data, String idEdit) {
 		String sql = "update Schedule set CONTENT='" + data.getContent() + "',TIME = '" + data.getTime() + "',NOTIFY='"
 				+ data.getisNotify() + "'where id = '" + idEdit + "';";
 		executeSQL(sql);
+		Connection c = null;
+		Statement stmt = null;
+		Schedule reminderdata = null;
+		WindosReminder testing = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+
+			stmt = c.createStatement();
+			String sql2 = "SELECT * FROM Schedule where id ='" + idEdit + "'";
+
+			ResultSet rs = stmt.executeQuery(sql2);
+			while (rs.next()) {
+				 reminderdata = new ScheduleBuilder().year(year).month(month).day(day)
+						.isNotify(rs.getString("notify")).time(rs.getString("time")).id(rs.getString("id"))
+						.content(rs.getString("CONTENT")).build();
+
+			}
+			rs.close();
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		if(reminderdata.getIsNotify() != data.getisNotify()){
+			testing = new WindosReminder(reminderdata);
+			testing.editReminder();
+		}
 	}
 
 	public void deleteDaySchedule(int dayNumId) {
@@ -87,6 +151,35 @@ public class CalendarManager {
 		
 		String sql = "delete from Schedule where id ='" + id + "' AND year='" + year + "'AND month='" + month
 				+ "'AND day='" + day + "';";
+		Connection c = null;
+		Statement stmt = null;
+		Schedule reminderdata = null;
+		WindosReminder testing = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
+			c.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+
+			stmt = c.createStatement();
+			String sql2 = "SELECT * FROM Schedule where id ='" + id + "'";
+
+			ResultSet rs = stmt.executeQuery(sql2);
+			while (rs.next()) {
+				 reminderdata = new ScheduleBuilder().year(year).month(month).day(day)
+						.isNotify(rs.getString("notify")).time(rs.getString("time")).id(rs.getString("id"))
+						.content(rs.getString("CONTENT")).build();
+
+			}
+			rs.close();
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		testing = new WindosReminder(reminderdata);
+		testing.deleteReminder();
 		executeSQL(sql);
 	}
 
