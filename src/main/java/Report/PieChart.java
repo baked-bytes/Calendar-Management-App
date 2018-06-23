@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class PieChart extends Chart {
+public class PieChart implements Chart {
 
 	AccountManager accountManager;
 
@@ -50,9 +50,8 @@ public class PieChart extends Chart {
 
 		return chart;
 	}
-
-	@Override
-	JPanel generate() {
+	
+	public JPanel generate() {
 		JFreeChart chart = createChart(createDataset());
 		return new ChartPanel(chart);
 	}

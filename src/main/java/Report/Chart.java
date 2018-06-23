@@ -2,6 +2,6 @@ package Report;
 
 import javax.swing.JPanel;
 
-public abstract class Chart {
-	abstract JPanel generate();	
+interface Chart {
+	public JPanel generate();	
 }

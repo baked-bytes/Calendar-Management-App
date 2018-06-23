@@ -14,7 +14,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import DB.AccountManager;
 import Model.CostRecord;
 
-public class BarChart extends Chart {
+public class BarChart implements Chart {
 
 	AccountManager accountManager;
 	
@@ -47,9 +47,8 @@ public class BarChart extends Chart {
 		dataset.addValue(getContentTypeCost("Entertainment"), "Entertainment", "");
 		return dataset;
 	}
-
-	@Override
-	JPanel generate() {
+	
+	public JPanel generate() {
 		ChartPanel chartPanel = new ChartPanel(createChart());
 		return chartPanel;
 	}
