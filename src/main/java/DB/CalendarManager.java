@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import CalendarView.WindosReminder;
+import CalendarView.WindowsReminder;
 import Model.Schedule;
 import Model.ScheduleBuilder;
 
@@ -78,7 +78,7 @@ public class CalendarManager {
 			Connection c = null;
 			Statement stmt = null;
 			Schedule reminderdata = null;
-			WindosReminder testing = null;
+			WindowsReminder testing = null;
 			try {
 				Class.forName("org.sqlite.JDBC");
 				c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
@@ -103,7 +103,7 @@ public class CalendarManager {
 				System.exit(0);
 			}
 			System.out.println(reminderdata.getId());
-			testing = new WindosReminder(reminderdata);
+			testing = new WindowsReminder(reminderdata);
 			testing.setReminder();
 		}
 	}
@@ -115,7 +115,7 @@ public class CalendarManager {
 		Connection c = null;
 		Statement stmt = null;
 		Schedule reminderdata = null;
-		WindosReminder testing = null;
+		WindowsReminder testing = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
@@ -140,7 +140,7 @@ public class CalendarManager {
 			System.exit(0);
 		}
 		if(reminderdata.getIsNotify() != data.getisNotify()){
-			testing = new WindosReminder(reminderdata);
+			testing = new WindowsReminder(reminderdata);
 			testing.editReminder();
 		}
 	}
@@ -154,7 +154,7 @@ public class CalendarManager {
 		Connection c = null;
 		Statement stmt = null;
 		Schedule reminderdata = null;
-		WindosReminder testing = null;
+		WindowsReminder testing = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
@@ -178,7 +178,7 @@ public class CalendarManager {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		testing = new WindosReminder(reminderdata);
+		testing = new WindowsReminder(reminderdata);
 		testing.deleteReminder();
 		executeSQL(sql);
 	}

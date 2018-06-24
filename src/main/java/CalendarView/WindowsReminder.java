@@ -15,12 +15,12 @@ import javax.swing.JFrame;
 import Model.Schedule;
 import Model.ScheduleBuilder;
 
-public class WindosReminder {
+public class WindowsReminder {
 	private String year;
 	private String month;
 	private String day;
 	private Schedule needtoremind;
-	public WindosReminder(Schedule needtoremind) {
+	public WindowsReminder(Schedule needtoremind) {
 		  this.year = needtoremind.getYear();
 		  this.month = needtoremind.getMonth();
 		  this.day = needtoremind.getDay();
@@ -208,6 +208,6 @@ public class WindosReminder {
 	}
 	public static void main(String[] args) {
 		Schedule schedule = new ScheduleBuilder().year("2018").month("5").day("18").isNotify("true").time("1506-1510").content("code demo").id("16").build();
-		WindosReminder testing = new WindosReminder(schedule);
+		WindowsReminder testing = new WindowsReminder(schedule);
 	}
 }

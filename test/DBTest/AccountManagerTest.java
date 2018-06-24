@@ -65,7 +65,7 @@ public class AccountManagerTest {
 					.day(day)
 					.content("Test for add")
 					.cost("100")
-					.type("eat")
+					.type("Food")
 					.build();
 
 		accountManager.addCostRecord(costRecord);
@@ -83,7 +83,7 @@ public class AccountManagerTest {
 					+ "AND DAY = \"11\" "
 					+ "AND CONTENT = \"Test for add\" "
 					+ "AND COST = \"100\" "
-					+ "AND TYPE = \"eat\";";
+					+ "AND TYPE = \"Food\";";
 			ResultSet rs = stmt.executeQuery(sql);
 			rs.getString("YEAR");//For checking whether the data exists
 		} catch (SQLException e){
@@ -115,7 +115,7 @@ public class AccountManagerTest {
 				.day(day)
 				.content("Test for edit")
 				.cost("100")
-				.type("eat")
+				.type("Food")
 				.build();
 
 		accountManager.addCostRecord(costRecord);
@@ -134,7 +134,7 @@ public class AccountManagerTest {
 					+ "AND DAY = \"11\" "
 					+ "AND CONTENT = \"Test for edit\" "
 					+ "AND COST = \"100\" "
-					+ "AND TYPE = \"eat\";";
+					+ "AND TYPE = \"Food\";";
 			ResultSet rs = stmt.executeQuery(sql);
 			ID = rs.getString("ID");
 		} catch (Exception e) {
@@ -153,7 +153,7 @@ public class AccountManagerTest {
 			}
 		}
 		/*THEN EDIT THE DATA CREATED ABOVE*/
-		costRecord.settype("living");
+		costRecord.settype("Housing");
 		accountManager.editCostRecord(costRecord, ID);
 
 		Connection connForEdit = null;
@@ -169,10 +169,10 @@ public class AccountManagerTest {
 					+ "AND DAY = \"11\" "
 					+ "AND CONTENT = \"Test for edit\" "
 					+ "AND COST = \"100\" "
-					+ "AND TYPE = \"living\";";
+					+ "AND TYPE = \"Housing\";";
 			ResultSet rs = stmtForEdit.executeQuery(sql);
 			String actualType = rs.getString("TYPE");
-			Assert.assertEquals("living", actualType);
+			Assert.assertEquals("Housing", actualType);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -199,7 +199,7 @@ public class AccountManagerTest {
 				.day(day)
 				.content("Test for delete")
 				.cost("100")
-				.type("eat")
+				.type("Food")
 				.build();
 
 		accountManager.addCostRecord(costRecord);
@@ -218,7 +218,7 @@ public class AccountManagerTest {
 					+ "AND DAY = \"11\" "
 					+ "AND CONTENT = \"Test for delete\" "
 					+ "AND COST = \"100\" "
-					+ "AND TYPE = \"eat\";";
+					+ "AND TYPE = \"Food\";";
 			ResultSet rs = stmt.executeQuery(sql);
 			ID = rs.getString("ID");
 		} catch (Exception e) {
@@ -252,7 +252,7 @@ public class AccountManagerTest {
 					+ "AND DAY = \"11\" "
 					+ "AND CONTENT = \"Test for delete\" "
 					+ "AND COST = \"100\" "
-					+ "AND TYPE = \"eat\";";
+					+ "AND TYPE = \"Food\";";
 			ResultSet rs = stmtForDelete.executeQuery(sql);
 			rs.getString("ID");//For Checking whether the data exists
 		} catch (SQLException e){
@@ -283,7 +283,7 @@ public class AccountManagerTest {
 				.day(day)
 				.content("Test for getAdayCostRecordIDList")
 				.cost("100")
-				.type("eat")
+				.type("Food")
 				.build();
 
 		accountManager.addCostRecord(costRecord);
@@ -301,7 +301,7 @@ public class AccountManagerTest {
 				.day(day)
 				.content("Test for getIDCostRecord")
 				.cost("100")
-				.type("eat")
+				.type("Food")
 				.build();
 
 		accountManager.addCostRecord(costRecord);
@@ -319,7 +319,7 @@ public class AccountManagerTest {
 					+ "AND DAY = \"11\" "
 					+ "AND CONTENT = \"Test for getIDCostRecord\" "
 					+ "AND COST = \"100\" "
-					+ "AND TYPE = \"eat\";";
+					+ "AND TYPE = \"Food\";";
 			ResultSet rs = stmt.executeQuery(sql);
 			costRecord.setId(rs.getString("ID"));
 		} catch (Exception e) {
@@ -345,11 +345,61 @@ public class AccountManagerTest {
 		String actualContent = actualCostRecord.getContent();
 		String actualCost = actualCostRecord.getcost();
 		String actualType = actualCostRecord.gettype();
+		
 		Assert.assertEquals("2018", actualYear);
 		Assert.assertEquals("5", actualMonth);
 		Assert.assertEquals("11", actualDay);
 		Assert.assertEquals("Test for getIDCostRecord", actualContent);
 		Assert.assertEquals("100", actualCost);
-		Assert.assertEquals("eat", actualType);
+		Assert.assertEquals("Food", actualType);
+	}
+	
+	@Test
+	public void getMonthlyCostTest(){
+		CostRecord costRecordStub = new CostRecordBuilder()
+				.year(year)
+				.month(month)
+				.day(day)
+				.content("Test for getMonthlyCost")
+				.cost("100")
+				.type("Food")
+				.build();
+		CostRecord costRecordStub2 = new CostRecordBuilder()
+				.year(year)
+				.month(month)
+				.day(day)
+				.content("Test for getMonthlyCost")
+				.cost("200")
+				.type("Clothing")
+				.build();
+		
+		accountManager.addCostRecord(costRecordStub);
+		accountManager.addCostRecord(costRecordStub2);
+		
+		ArrayList<CostRecord> monthlyCostRecord = 
+				accountManager.getMonthlyCost();
+		ArrayList<CostRecord> actualMonthlyCostRecord = 
+				new ArrayList<CostRecord>();
+		
+		for (CostRecord costRecordForTest : monthlyCostRecord) {
+			if (costRecordForTest.getContent().equals("Test for getMonthlyCost"))
+				actualMonthlyCostRecord.add(costRecordForTest);
+		}
+		
+		String actualContentStub = actualMonthlyCostRecord.get(0).getContent();
+		String actualCostStub = actualMonthlyCostRecord.get(0).getcost();
+		String actualTypeStub = actualMonthlyCostRecord.get(0).gettype();
+		
+		String actualContentStub2 = actualMonthlyCostRecord.get(1).getContent();
+		String actualCostStub2 = actualMonthlyCostRecord.get(1).getcost();
+		String actualTypeStub2 = actualMonthlyCostRecord.get(1).gettype();
+		
+		Assert.assertEquals("Test for getMonthlyCost", actualContentStub);
+		Assert.assertEquals("100", actualCostStub);
+		Assert.assertEquals("Food", actualTypeStub);
+		
+		Assert.assertEquals("Test for getMonthlyCost", actualContentStub2);
+		Assert.assertEquals("200", actualCostStub2);
+		Assert.assertEquals("Clothing", actualTypeStub2);
 	}
 }

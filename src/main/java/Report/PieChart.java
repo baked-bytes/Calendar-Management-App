@@ -22,10 +22,10 @@ public class PieChart implements Chart {
 	}
 
 	public double getContentScale(String searchType) {
-		ArrayList<CostRecord> montlyCostList = accountManager.getMonthlyCost();
+		ArrayList<CostRecord> monthlyCostList = accountManager.getMonthlyCost();
 		int totalCost = accountManager.getMontlyTotalCost();
 		int partCost = 0;
-		for (CostRecord costRecord : montlyCostList) {
+		for (CostRecord costRecord : monthlyCostList) {
 			if (costRecord.gettype().equals(searchType))
 				partCost += Integer.parseInt(costRecord.getcost());
 		}
