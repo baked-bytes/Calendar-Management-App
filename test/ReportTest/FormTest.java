@@ -77,7 +77,7 @@ public class FormTest {
 				.type("Clothing")
 				.build());
 		
-		String[][] actualData = form.getDataFromManager();
+		String[][] actualData = form.readDataFromManager();
 		String actualType1 = actualData[0][0];
 		String actualCost1 = actualData[0][1];
 		String actualContent1 = actualData[0][2];
