@@ -59,12 +59,12 @@ public class FormTest {
 	}
 	
 	@Test
-	public void getDataFromManagerTest() {
+	public void readDataFromManagerTest() {
 		accountManager.addCostRecord(new CostRecordBuilder()
 				.year(year)
 				.month(month)
 				.day(day)
-				.content("Test for getDataFromManager")
+				.content("Test for readDataFromManager")
 				.cost("100")
 				.type("Food")
 				.build());
@@ -72,7 +72,7 @@ public class FormTest {
 				.year(year)
 				.month(month)
 				.day(day)
-				.content("Test for getDataFromManager")
+				.content("Test for readDataFromManager")
 				.cost("100")
 				.type("Clothing")
 				.build());
@@ -87,9 +87,9 @@ public class FormTest {
 		
 		Assert.assertEquals("Food", actualType1);
 		Assert.assertEquals("100", actualCost1);
-		Assert.assertEquals("Test for getDataFromManager", actualContent1);
+		Assert.assertEquals("Test for readDataFromManager", actualContent1);
 		Assert.assertEquals("Clothing", actualType2);
 		Assert.assertEquals("100", actualCost2);
-		Assert.assertEquals("Test for getDataFromManager", actualContent2);
+		Assert.assertEquals("Test for readDataFromManager", actualContent2);
 	}
 }
