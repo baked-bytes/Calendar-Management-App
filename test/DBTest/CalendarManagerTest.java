@@ -62,7 +62,7 @@ public class CalendarManagerTest {
 				.day(day)
 				.content("Test for add")
 				.time("1400-1500")
-				.isNotify("true")
+				.isNotify("false")
 				.build();
 		calendarManager.addSchedule(schedule);
 
@@ -79,7 +79,7 @@ public class CalendarManagerTest {
 					+ "AND DAY = \"11\" "
 					+ "AND CONTENT = \"Test for add\" "
 					+ "AND TIME = \"1400-1500\" "
-					+ "AND NOTIFY = \"true\";";
+					+ "AND NOTIFY = \"false\";";
 			ResultSet rs = stmt.executeQuery(sql);
 			rs.getString("YEAR");//For checking whether the data exists
 		} catch (SQLException e) {
@@ -111,7 +111,7 @@ public class CalendarManagerTest {
 				.day(day)
 				.content("Test for edit")
 				.time("1400-1500")
-				.isNotify("true")
+				.isNotify("false")
 				.build();
 		calendarManager.addSchedule(schedule);
 
@@ -129,7 +129,7 @@ public class CalendarManagerTest {
 					+ "AND DAY = \"11\" "
 					+ "AND CONTENT = \"Test for edit\" "
 					+ "AND TIME = \"1400-1500\" "
-					+ "AND NOTIFY = \"true\";";
+					+ "AND NOTIFY = \"false\";";
 			ResultSet rs = stmt.executeQuery(sql);
 			ID = rs.getString("ID");
 		} catch (Exception e) {
@@ -164,7 +164,7 @@ public class CalendarManagerTest {
 					+ "AND DAY = \"11\" "
 					+ "AND CONTENT = \"Test for edit\" "
 					+ "AND TIME = \"1600-1700\" "
-					+ "AND NOTIFY = \"true\";";
+					+ "AND NOTIFY = \"false\";";
 			ResultSet rs = stmtForEdit.executeQuery(sql);
 			String actualTime = rs.getString("TIME");
 			Assert.assertEquals("1600-1700", actualTime);
@@ -194,7 +194,7 @@ public class CalendarManagerTest {
 				.day(day)
 				.content("Test for delete")
 				.time("1400-1500")
-				.isNotify("true")
+				.isNotify("false")
 				.build();
 		calendarManager.addSchedule(schedule);
 
@@ -215,7 +215,7 @@ public class CalendarManagerTest {
 					+ "AND DAY = \"11\" "
 					+ "AND CONTENT = \"Test for delete\" "
 					+ "AND TIME = \"1400-1500\" "
-					+ "AND NOTIFY = \"true\";";
+					+ "AND NOTIFY = \"false\";";
 			ResultSet rs = stmtForDelete.executeQuery(sql);
 			rs.getString("ID");//For Checking whether the data exists
 		} catch (SQLException e){
