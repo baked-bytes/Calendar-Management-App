@@ -3,9 +3,15 @@
 #include <fstream>
 #include <ctime>
 #include <string>
+#include <unistd.h>
+#include   <stdio.h> 
+#include   <stdlib.h>
+#define   MAXPATH   260 
 using namespace std;
 
 int main () {
+char   buffer[MAXPATH];   
+      getcwd(buffer,   MAXPATH); 
 ifstream fileInput;
 ofstream myfile ("fortesting.bat");
 int offset;
@@ -34,6 +40,7 @@ else
     minute = to_string(now->tm_min);
 string search = to_string(now->tm_year + 1900) + "/" + month +"/" + day + " " + hour + ":" + minute +":"+"00" ;
 cout << "search: " << search<< endl;
+cout << "cd " + string(buffer)  + " \n";
 fileInput.open("reminderrecord.txt");
 if(fileInput.is_open()) {
     while(!fileInput.eof()) {
@@ -41,7 +48,7 @@ if(fileInput.is_open()) {
         if ((offset = line.find(search, 0)) != string::npos) {
             if (myfile.is_open())
             {
-              myfile << "cd C:\\Users\\morris\\Desktop\\testing\\OOAD\\ \n";
+              myfile << "cd " + string(buffer)  + " \n";
               myfile << "decide.exe\n";
               myfile << "ping 127.0.0.1 -n 1 -w 70> nul\n";
               myfile << "del msgbox.vbs\n";

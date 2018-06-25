@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.JFrame;
-
 import Model.Schedule;
 import Model.ScheduleBuilder;
 
@@ -27,6 +25,8 @@ public class WindowsReminder {
 		  this.needtoremind = needtoremind;
 	}
 	public void setReminder() {
+		File baiscfile=new File("fortesting.bat"); 
+		String path=baiscfile.getAbsolutePath();
 		FileWriter writer = null;
 		String[] parts = null;
 		try {
@@ -38,8 +38,8 @@ public class WindowsReminder {
 			}
 			parts = needtoremind.getTime().split("-");
 			parts[0] = parts[0].substring(0, 2) + ":" + parts[0].substring(2, 4) + ":00";
-			writer = new FileWriter("C:\\Users\\morris\\Desktop\\testing\\OOAD\\test.bat");
-			writer.write("SCHTASKS /Create /SC ONCE /TN forTesting"+ needtoremind.getId() +" /TR C:\\Users\\morris\\Desktop\\testing\\OOAD\\fortesting.bat /ST "+ parts[0] +" /SD " + needtoremind.getYear() + "/" + needtoremind.getMonth() + "/" + needtoremind.getDay());
+			writer = new FileWriter("test.bat");
+			writer.write("SCHTASKS /Create /SC ONCE /TN forTesting"+ needtoremind.getId() +" /TR "+path+" /ST "+ parts[0] +" /SD " + needtoremind.getYear() + "/" + needtoremind.getMonth() + "/" + needtoremind.getDay());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {
@@ -49,8 +49,8 @@ public class WindowsReminder {
 		FileWriter fw = null;
 		try {
 			String data = needtoremind.getYear() + "/" + needtoremind.getMonth() + "/" + needtoremind.getDay() + " " +parts[0] + " " + needtoremind.getContent() + "\n";
-			File file = new File("C:\\Users\\morris\\Desktop\\testing\\OOAD\\reminderrecord.txt");
-			// if file doesnt exists, then create it
+			File file = new File("reminderrecord.txt");
+			// if file doesn't exists, then create it
 			if (!file.exists()) {
 				file.createNewFile();
 			}
@@ -72,7 +72,9 @@ public class WindowsReminder {
 			}
 		}
 		try {
-			Process p =  Runtime.getRuntime().exec("cmd /c start  C:\\Users\\morris\\Desktop\\testing\\OOAD\\test.bat");
+			File baiscfile2=new File("test.bat"); 
+			String path2=baiscfile2.getAbsolutePath();
+			Process p =  Runtime.getRuntime().exec("cmd /c start  " + path2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -90,9 +92,11 @@ public class WindowsReminder {
 		}
 	}
 	public void editReminder() {
+		File baiscfile=new File("fortesting.bat"); 
+		String path=baiscfile.getAbsolutePath();
 		FileWriter writer = null;
 		try {
-			writer = new FileWriter("C:\\Users\\morris\\Desktop\\testing\\OOAD\\testdelete.bat");
+			writer = new FileWriter("testdelete.bat");
 			writer.write("SCHTASKS /Delete /TN fortesting" + needtoremind.getId() + " /F");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -100,7 +104,9 @@ public class WindowsReminder {
 		    if (writer != null) try { writer.close(); } catch (IOException ignore) {}
 		}
 		try {
-			Process p =  Runtime.getRuntime().exec("cmd /c start  C:\\Users\\morris\\Desktop\\testing\\OOAD\\testdelete.bat");
+			File baiscfile2=new File("testdelete.bat"); 
+			String path2=baiscfile2.getAbsolutePath();
+			Process p =  Runtime.getRuntime().exec("cmd /c start  " + path2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -122,15 +128,17 @@ public class WindowsReminder {
 			}
 			parts = needtoremind.getTime().split("-");
 			parts[0] = parts[0].substring(0, 2) + ":" + parts[0].substring(2, 4) + ":00";
-			writer = new FileWriter("C:\\Users\\morris\\Desktop\\testing\\OOAD\\test.bat");
-			writer.write("SCHTASKS /Create /SC ONCE /TN forTesting"+ needtoremind.getId() +" /TR C:\\Users\\morris\\Desktop\\testing\\OOAD\\fortesting.bat /ST "+ parts[0] +" /SD " + needtoremind.getYear() + "/" + needtoremind.getMonth() + "/" + needtoremind.getDay());
+			writer = new FileWriter("test.bat");
+			writer.write("SCHTASKS /Create /SC ONCE /TN forTesting"+ needtoremind.getId() +" /TR "+ path +" /ST "+ parts[0] +" /SD " + needtoremind.getYear() + "/" + needtoremind.getMonth() + "/" + needtoremind.getDay());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {
 		    if (writer != null) try { writer.close(); } catch (IOException ignore) {}
 		}
 	    try {
-	    	Process p =  Runtime.getRuntime().exec("cmd /c start  C:\\Users\\morris\\Desktop\\testing\\OOAD\\test.bat");
+	    	File baiscfile2=new File("test.bat"); 
+			String path2=baiscfile2.getAbsolutePath();
+	    	Process p =  Runtime.getRuntime().exec("cmd /c start  " + path2);
 	    } catch (IOException e) {
 	    	// TODO Auto-generated catch block
 	    	e.printStackTrace();
@@ -151,7 +159,7 @@ public class WindowsReminder {
 	    List<String> lines = new ArrayList<String>();
 	    String line = null;
 		try {
-            File f1 = new File("C:\\Users\\morris\\Desktop\\testing\\OOAD\\reminderrecord.txt");
+            File f1 = new File("reminderrecord.txt");
             FileReader fr = new FileReader(f1);
             BufferedReader br = new BufferedReader(fr);
             Boolean flag = false;
@@ -181,7 +189,7 @@ public class WindowsReminder {
 	public void deleteReminder() {
 		FileWriter writer = null;
 		try {
-			writer = new FileWriter("C:\\Users\\morris\\Desktop\\testing\\OOAD\\testdelete.bat");
+			writer = new FileWriter("testdelete.bat");
 			writer.write("SCHTASKS /Delete /TN fortesting" + needtoremind.getId() + " /F");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -189,7 +197,9 @@ public class WindowsReminder {
 		    if (writer != null) try { writer.close(); } catch (IOException ignore) {}
 		}
 		try {
-			Process p =  Runtime.getRuntime().exec("cmd /c start  C:\\Users\\morris\\Desktop\\testing\\OOAD\\testdelete.bat");
+			File baiscfile2=new File("testdelete.bat"); 
+			String path2=baiscfile2.getAbsolutePath();
+			Process p =  Runtime.getRuntime().exec("cmd /c start  " + path2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
