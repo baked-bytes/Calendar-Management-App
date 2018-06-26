@@ -72,9 +72,9 @@ public class CalendarManager {
 	public void addSchedule(Schedule data) {
 		String sql = "insert into Schedule( YEAR, MONTH, DAY,CONTENT, TIME, NOTIFY )" + "VALUES(\'" + data.getYear()
 				+ "','" + data.getMonth() + "','" + data.getDay() + "','" + data.getContent() + "','" + data.getTime()
-				+ "','" + data.getisNotify() + "\');";
+				+ "','" + data.getIsNotify() + "\');";
 		executeSQL(sql);
-		if(data.getisNotify() == "true") {
+		if(data.getIsNotify() == "true") {
 			Connection c = null;
 			Statement stmt = null;
 			Schedule reminderdata = null;
@@ -109,12 +109,9 @@ public class CalendarManager {
 	}
 
 	public void editSchedule(Schedule data, String idEdit) {
-		String sql = "update Schedule set CONTENT='" + data.getContent() + "',TIME = '" + data.getTime() + "',NOTIFY='"
-				+ data.getisNotify() + "'where id = '" + idEdit + "';";
-		executeSQL(sql);
 		Connection c = null;
 		Statement stmt = null;
-		Schedule reminderdata = null;
+		Schedule originaldata = null;
 		WindowsReminder testing = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -123,14 +120,13 @@ public class CalendarManager {
 			System.out.println("Opened database successfully");
 
 			stmt = c.createStatement();
-			String sql2 = "SELECT * FROM Schedule where id ='" + idEdit + "'";
+			String sqlOriginal = "SELECT * FROM Schedule where id ='" + idEdit + "'";
 
-			ResultSet rs = stmt.executeQuery(sql2);
+			ResultSet rs = stmt.executeQuery(sqlOriginal);
 			while (rs.next()) {
-				 reminderdata = new ScheduleBuilder().year(year).month(month).day(day)
+				 originaldata = new ScheduleBuilder().year(year).month(month).day(day)
 						.isNotify(rs.getString("notify")).time(rs.getString("time")).id(rs.getString("id"))
 						.content(rs.getString("CONTENT")).build();
-
 			}
 			rs.close();
 			stmt.close();
@@ -139,10 +135,16 @@ public class CalendarManager {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		if(reminderdata.getIsNotify() != data.getisNotify()){
-			testing = new WindowsReminder(reminderdata);
+		
+		if(!(originaldata.getIsNotify().equals(data.getIsNotify()))){
+			testing = new WindowsReminder(originaldata);
 			testing.editReminder();
 		}
+		
+		String sql = "update Schedule set CONTENT='" + data.getContent() + "',TIME = '" + data.getTime() + "',NOTIFY='"
+				+ data.getIsNotify() + "'where id = '" + idEdit + "';";
+		executeSQL(sql);
+		
 	}
 
 	public void deleteDaySchedule(int dayNumId) {

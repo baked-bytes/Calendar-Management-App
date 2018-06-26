@@ -43,7 +43,7 @@ public class CalendarView extends JFrame implements ActionListener {
 			mydata[i][0] = Integer.toString(i + 1);
 			mydata[i][1] = data.get(i).getTime();
 			mydata[i][2] = data.get(i).getContent();
-			mydata[i][3] = data.get(i).getisNotify().equals("true") ? "O" : "X";
+			mydata[i][3] = data.get(i).getIsNotify().equals("true") ? "O" : "X";
 		}
 		return mydata;
 	}
@@ -64,7 +64,7 @@ public class CalendarView extends JFrame implements ActionListener {
 			mydata[0] = Integer.toString(i + 1);
 			mydata[1] = data.get(i).getTime();
 			mydata[2] = data.get(i).getContent();
-			mydata[3] = data.get(i).getisNotify().equals("true") ? "O" : "X";
+			mydata[3] = data.get(i).getIsNotify().equals("true") ? "O" : "X";
 			model.addRow(mydata);
 		}
 		model.fireTableDataChanged();

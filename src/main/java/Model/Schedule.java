@@ -23,10 +23,6 @@ public class Schedule {
 	  return id;
 	}	
 	
-	public String getisNotify(){
-	  return isNotify;
-	}
-	
 	public String getYear() {
 		return year;
 	}

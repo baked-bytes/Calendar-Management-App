@@ -62,7 +62,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		startTimeText.setText(parts[0]);
 		endTimeText.setText(parts[1]);
 		textContentArea.setText(scheduleToBeEdited.getContent());
-		if (scheduleToBeEdited.getisNotify().equals("true"))
+		if (scheduleToBeEdited.getIsNotify().equals("true"))
 			windowRemiderCheck.setSelected(true);
 	}
 
