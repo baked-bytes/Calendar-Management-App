@@ -118,8 +118,8 @@ public class DetailReportView extends JFrame implements ActionListener {
 	}
 
 	public void showChart(String chartName) {
-		Chart pieChart = new ChartFactory().getChart(chartName, year, month);
-		panel.add(pieChart.generate(), BorderLayout.CENTER);
+		Chart chart = new ChartFactory().getChart(chartName, year, month);
+		panel.add(chart.generate(), BorderLayout.CENTER);
 		setVisible(true);
 	}
 
