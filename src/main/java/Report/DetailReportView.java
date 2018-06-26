@@ -56,7 +56,7 @@ public class DetailReportView extends JFrame implements ActionListener {
 		exportFile = new JButton();
 		exportFile.setText("ExportFile");
 		exportFile.addActionListener(this);
-		//panelButton.add(exportFile);
+		// panelButton.add(exportFile);
 		// ********************************
 
 		setTitle(year + "/" + month + " Monthly cost");
@@ -70,14 +70,14 @@ public class DetailReportView extends JFrame implements ActionListener {
 		table.setFillsViewportHeight(true);
 		table.setRowHeight(50);
 		table.setFont(new Font("Serif", Font.BOLD, 20));
-		
+
 		JPanel panelBelow = new JPanel();
 		JLabel label = new JLabel("total cost  $" + form.getMontlyTotalCost() + "  ");
 		label.setForeground(Color.BLUE);
 		label.setFont(new Font("Serif", Font.BOLD, 24));
 		panelBelow.add(label);
 		panelBelow.add(exportFile);
-		
+
 		setSize(700, 600);
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -97,35 +97,31 @@ public class DetailReportView extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		
-		if( e.getSource() == exportFile ){
+
+		if (e.getSource() == exportFile) {
 			form.exportAsExcelFile();
-		}
-		else if (form.montlyCostListSize != 0) {
-			
+		} else if (form.montlyCostListSize != 0) {
+
 			BorderLayout layout = (BorderLayout) panel.getLayout();
 			panel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
-			
+
 			if (e.getSource() == monthTable) {
 				panel.add(scrollPane, BorderLayout.CENTER);
 				setVisible(true);
 			} else if (e.getSource() == pieChart) {
-				Chart pieChart = new PieChart(year, month);
-				panel.add(pieChart.generate(), BorderLayout.CENTER);
-				setVisible(true);
+				showChart("pieChart");
 			} else if (e.getSource() == barChart) {
-				Chart barChart = new BarChart(year, month);
-				panel.add(barChart.generate(), BorderLayout.CENTER);
-				setVisible(true);
-			}			
+				showChart("barChart");
+			}
 		}
 
 	}
 
-	public static void main(String[] args) {
-		DetailReportView detailReportView = new DetailReportView("2018", "5");
-		// detailReportView.init();
-
+	public void showChart(String chartName) {
+		Chart pieChart = new ChartFactory().getChart(chartName, year, month);
+		panel.add(pieChart.generate(), BorderLayout.CENTER);
+		setVisible(true);
 	}
+
 
 }
