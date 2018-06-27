@@ -106,6 +106,8 @@ public class CalendarManagerTest {
 
 		String filePath = "reminderrecord.txt";
 		BufferedReader br = null;
+		String expectExistedContent = null;
+		String fileContentInString = null;
 		try {
 			br = new BufferedReader(new FileReader(filePath));
 			StringBuilder sb = new StringBuilder();
@@ -117,13 +119,13 @@ public class CalendarManagerTest {
 				fileContent = br.readLine();
 			}
 
-			String expectExistedContent = schedule.getYear() + "/" 
+			expectExistedContent = schedule.getYear() + "/" 
 					+ ((schedule.getMonth().length() > 1) ? schedule.getMonth() : "0" + schedule.getMonth())  + "/" 
 					+ schedule.getDay() + " "
 					+ schedule.getTime().substring(0, 2) + ":" + schedule.getTime().substring(2, 4) + ":00" + " "
 					+ schedule.getContent();
 
-			String fileContentInString = sb.toString();
+			fileContentInString = sb.toString();
 			
 			System.out.println("fileContentInString = " + fileContentInString);
 			System.out.println("expect = " + expectExistedContent);
@@ -139,16 +141,18 @@ public class CalendarManagerTest {
 			try {
 				if (br != null)
 					br.close();
-				//Restore "reminderrecord.txt" to the original state
-				raf = new RandomAccessFile(filePath, "rw");
-				long length = raf.length() - 1;
-				byte b;
-				do {
-					length -= 1;//Get rid of the EOF character
-					raf.seek(length);//Point to the corresponding location
-					b = raf.readByte();
-				} while (b != 10 && length > 0);//byte = 10 : escape character
-				raf.setLength(length + 1);
+				if (fileContentInString.contains(expectExistedContent)) {//Check whether it's needed to restore the "reminderrecord.txt"
+					//Restore "reminderrecord.txt" to the original state
+					raf = new RandomAccessFile(filePath, "rw");
+					long length = raf.length() - 1;
+					byte b;
+					do {
+						length -= 1;//Get rid of the EOF character
+						raf.seek(length);//Point to the corresponding location
+						b = raf.readByte();
+					} while (b != 10 && length > 0);//byte = 10 : escape character
+					raf.setLength(length + 1);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
@@ -282,6 +286,8 @@ public class CalendarManagerTest {
 
 		String filePath = "reminderrecord.txt";
 		BufferedReader br = null;
+		String expectExistedContent = null;
+		String fileContentInString = null;
 		try {
 			br = new BufferedReader(new FileReader(filePath));
 			StringBuilder sb = new StringBuilder();
@@ -293,13 +299,13 @@ public class CalendarManagerTest {
 				fileContent = br.readLine();
 			}
 
-			String expectExistedContent = schedule.getYear() + "/" 
+			expectExistedContent = schedule.getYear() + "/" 
 					+ ((schedule.getMonth().length() > 1) ? schedule.getMonth() : "0" + schedule.getMonth())  + "/" 
 					+ schedule.getDay() + " "
 					+ schedule.getTime().substring(0, 2) + ":" + schedule.getTime().substring(2, 4) + ":00" + " "
 					+ schedule.getContent();
 
-			String fileContentInString = sb.toString();
+			fileContentInString = sb.toString();
 			
 			System.out.println("fileContentInString = " + fileContentInString);
 			System.out.println("expect = " + expectExistedContent);
@@ -315,16 +321,18 @@ public class CalendarManagerTest {
 			try {
 				if (br != null)
 					br.close();
-				//Restore "reminderrecord.txt" to the original state
-				raf = new RandomAccessFile(filePath, "rw");
-				long length = raf.length() - 1;
-				byte b;
-				do {
-					length -= 1;//Get rid of the EOF character
-					raf.seek(length);//Point to the corresponding location
-					b = raf.readByte();
-				} while (b != 10 && length > 0);//byte = 10 : escape character
-				raf.setLength(length + 1);
+				if (fileContentInString.contains(expectExistedContent)) {//Check whether it's needed to restore the "reminderrecord.txt"
+					//Restore "reminderrecord.txt" to the original state
+					raf = new RandomAccessFile(filePath, "rw");
+					long length = raf.length() - 1;
+					byte b;
+					do {
+						length -= 1;//Get rid of the EOF character
+						raf.seek(length);//Point to the corresponding location
+						b = raf.readByte();
+					} while (b != 10 && length > 0);//byte = 10 : escape character
+					raf.setLength(length + 1);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
