@@ -1,1 +1,1 @@
-SCHTASKS /Create /SC ONCE /TN forTesting178 /TR C:\Users\wayne\Desktop\OOAD\fortesting.bat /ST 14:00:00 /SD 2018/05/11
+SCHTASKS /Create /SC ONCE /TN forTesting89 /TR C:\Users\morris\Desktop\ooad_clander\OOAD\testinginvisible.vbs /ST 17:46:00 /SD 2018/06/28

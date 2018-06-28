@@ -23,9 +23,47 @@ public class WindowsReminder {
 		  this.month = needtoremind.getMonth();
 		  this.day = needtoremind.getDay();
 		  this.needtoremind = needtoremind;
+		  setfortesting();
+		  settestinginvisible();
+	}
+	public void setfortesting() {
+		 FileWriter newwriter = null;
+		 File baiscfile=new File("."); 
+		 String path=baiscfile.getAbsolutePath();
+		 try {
+				newwriter = new FileWriter("fortesting.bat");
+				newwriter.write("cd "+ path.substring(0, path.length()-2) +" \n" + 
+						"decide.exe\n" + 
+						"ping 127.0.0.1 -n 1 -w 70> nul\n" + 
+						"del msgbox.vbs\n" + 
+						"@echo off\n" + 
+						"echo x=msgbox(\"2018/06/28 11:16:00 test\" ,64, \"\" )  >>  msgbox.vbs\n" + 
+						"start msgbox.vbs");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}finally {
+			    if (newwriter != null) try { newwriter.close(); } catch (IOException ignore) {}
+			}
+	}
+	public void settestinginvisible() {
+		 FileWriter newwriter = null;
+		 File baiscfile=new File("fortesting.bat"); 
+		 String path=baiscfile.getAbsolutePath();
+		 try {
+				newwriter = new FileWriter("testinginvisible.vbs");
+				newwriter.write("set shell = WScript.CreateObject(\"WScript.Shell\")\r\n" + 
+						"shell.Run(\""+
+						path
+						+ "\"), 0 , True"
+						);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}finally {
+			    if (newwriter != null) try { newwriter.close(); } catch (IOException ignore) {}
+			}
 	}
 	public void setReminder() {
-		File baiscfile=new File("fortesting.bat"); 
+		File baiscfile=new File("testinginvisible.vbs"); 
 		String path=baiscfile.getAbsolutePath();
 		FileWriter writer = null;
 		String[] parts = null;
@@ -72,27 +110,18 @@ public class WindowsReminder {
 			}
 		}
 		try {
-			File baiscfile2=new File("test.bat"); 
+			File baiscfile2=new File("invisible.vbs"); 
 			String path2=baiscfile2.getAbsolutePath();
-			Process p =  Runtime.getRuntime().exec("cmd /c start  " + path2);
+			File baiscfile3=new File("test.bat"); 
+			String path3=baiscfile3.getAbsolutePath();
+			Process p =  Runtime.getRuntime().exec("cmd /c wscript.exe \""+ path2 +"\" \"" + path3 + "\"");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				TimeUnit.MILLISECONDS.sleep(70);
-				Runtime.getRuntime().exec("taskkill /f /im cmd.exe") ;
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 	}
 	public void editReminder() {
-		File baiscfile=new File("fortesting.bat"); 
+		File baiscfile=new File("testinginvisible.vbs"); 
 		String path=baiscfile.getAbsolutePath();
 		FileWriter writer = null;
 		try {
@@ -104,19 +133,14 @@ public class WindowsReminder {
 		    if (writer != null) try { writer.close(); } catch (IOException ignore) {}
 		}
 		try {
-			File baiscfile2=new File("testdelete.bat"); 
+			File baiscfile2=new File("invisible.vbs"); 
 			String path2=baiscfile2.getAbsolutePath();
-			Process p =  Runtime.getRuntime().exec("cmd /c start  " + path2);
+			File baiscfile3=new File("testdelete.bat"); 
+			String path3=baiscfile3.getAbsolutePath();
+			Process p =  Runtime.getRuntime().exec("cmd /c wscript.exe \""+ path2 +"\" \"" + path3 + "\"");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				TimeUnit.MILLISECONDS.sleep(70);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		String[] parts = null;
 		try {
@@ -136,23 +160,14 @@ public class WindowsReminder {
 		    if (writer != null) try { writer.close(); } catch (IOException ignore) {}
 		}
 	    try {
-	    	File baiscfile2=new File("test.bat"); 
+	    	File baiscfile2=new File("invisible.vbs"); 
 			String path2=baiscfile2.getAbsolutePath();
-	    	Process p =  Runtime.getRuntime().exec("cmd /c start  " + path2);
+			File baiscfile3=new File("test.bat"); 
+			String path3=baiscfile3.getAbsolutePath();
+			Process p =  Runtime.getRuntime().exec("cmd /c wscript.exe \""+ path2 +"\" \"" + path3 + "\"");
 	    } catch (IOException e) {
 	    	// TODO Auto-generated catch block
 	    	e.printStackTrace();
-	    }finally {
-	    	try {
-	    		TimeUnit.MILLISECONDS.sleep(70);
-	    		Runtime.getRuntime().exec("taskkill /f /im cmd.exe") ;
-	    	} catch (InterruptedException e) {
-	    		// TODO Auto-generated catch block
-	    		e.printStackTrace();
-	    	} catch (IOException e) {
-	    		// TODO Auto-generated catch block
-	    		e.printStackTrace();
-	    	}
 	    }
 	    String searching = needtoremind.getYear() + "/" + needtoremind.getMonth() + "/" + needtoremind.getDay() + " " +parts[0] ;
 	    String data = needtoremind.getYear() + "/" + needtoremind.getMonth() + "/" + needtoremind.getDay() + " " +parts[0] + " " + needtoremind.getContent() + "\n";
@@ -197,23 +212,14 @@ public class WindowsReminder {
 		    if (writer != null) try { writer.close(); } catch (IOException ignore) {}
 		}
 		try {
-			File baiscfile2=new File("testdelete.bat"); 
+			File baiscfile2=new File("invisible.vbs"); 
 			String path2=baiscfile2.getAbsolutePath();
-			Process p =  Runtime.getRuntime().exec("cmd /c start  " + path2);
+			File baiscfile3=new File("testdelete.bat"); 
+			String path3=baiscfile3.getAbsolutePath();
+			Process p =  Runtime.getRuntime().exec("cmd /c wscript.exe \""+ path2 +"\" \"" + path3 + "\"");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			try {
-				TimeUnit.MILLISECONDS.sleep(70);
-				Runtime.getRuntime().exec("taskkill /f /im cmd.exe") ;
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 	}
 	public static void main(String[] args) {

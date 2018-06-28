@@ -180,8 +180,10 @@ public class CalendarManager {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		testing = new WindowsReminder(reminderdata);
-		testing.deleteReminder();
+		if(!(reminderdata.getIsNotify().equals(true))){
+			testing = new WindowsReminder(reminderdata);
+			testing.deleteReminder();
+		}
 		executeSQL(sql);
 	}
 
