@@ -45,10 +45,6 @@ public class FunctionChosenView extends JDialog implements ActionListener{
 		getContentPane().add(btnaccount);
 	}
 
-	public static void main(String[] args) {
-		FunctionChosenView test = new FunctionChosenView("2018","5","5");
-	}
-
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btncalendar) {
 			try {

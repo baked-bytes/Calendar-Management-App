@@ -53,11 +53,7 @@ public class AccountIDView extends JDialog implements ActionListener{
 		btnEdit.setBounds(120, 93, 120, 30);
 		getContentPane().add(btnEdit);
 	}
-
-	public static void main(String[] args) {
-		AccountIDView test = new AccountIDView("2018","5","5");
-	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 		AccountManager accountManager = new AccountManager(year, month, day);
 		adayCostRecordIDList = accountManager.getadayCostRecordIDList();

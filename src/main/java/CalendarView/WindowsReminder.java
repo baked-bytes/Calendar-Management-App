@@ -222,8 +222,4 @@ public class WindowsReminder {
 			e.printStackTrace();
 		}
 	}
-	public static void main(String[] args) {
-		Schedule schedule = new ScheduleBuilder().year("2018").month("5").day("18").isNotify("true").time("1506-1510").content("code demo").id("16").build();
-		WindowsReminder testing = new WindowsReminder(schedule);
-	}
 }

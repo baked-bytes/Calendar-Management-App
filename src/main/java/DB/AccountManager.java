@@ -242,15 +242,4 @@ public class AccountManager {
 		System.out.println("Operation done successfully");
 	}
 
-	public static void main(String args[]) {
-		// AccountManager jd = new AccountManager("2018", "4", "27");
-		// CostRecord costRecord = new CostRecord();
-		// costRecord.setDay("30");
-		// costRecord.setYear("2018");
-		// costRecord.setMonth("4");
-		// costRecord.setcost("400");
-		// costRecord.settype("eat");
-		// costRecord.setContent("dinner");
-		// jd.addCostRecord(costRecord);
-	}
 }

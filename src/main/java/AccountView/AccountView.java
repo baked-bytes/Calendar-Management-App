@@ -62,7 +62,4 @@ public class AccountView extends JFrame{
 		AccountManager test = new AccountManager(year,month,day);
         test.setCostRecord();
 	}
-    public static void main(String[] args) {
-    	AccountView AccountViewtest = new AccountView("2018","4","27");
-    }
 }

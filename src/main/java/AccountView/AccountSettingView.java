@@ -119,10 +119,5 @@ public class AccountSettingView extends JFrame implements ActionListener {
 		return costRecord;
 	}
 
-	public static void main(String[] args) {
-		AccountSettingView accountSettingView = new AccountSettingView("2018", "4", "26");
-		accountSettingView.setVisible(true);
-
-	}
 
 }
