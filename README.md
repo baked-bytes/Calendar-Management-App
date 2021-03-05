@@ -44,3 +44,12 @@ Contains:
   * Measurement  
 
 [documentation site]: documentation/personalCalendarDocument.docx
+
+### Credits to original repo developers
+[repository link] https://github.com/mpjp/Personal-Calendar
+
+106598038 Li Bolin
+
+106598048 Guo Shiquan
+
+106598053 Chen Yunwen
