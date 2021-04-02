@@ -22,7 +22,7 @@ public class FunctionChosenView extends JDialog implements ActionListener{
 	private String day;
 	private String id;
 	private JButton btncalendar;
-	private JButton btnaccount;
+	//private JButton btnaccount;
 	public FunctionChosenView(String year, String month, String day) {
 		this.year = year;
 		this.month = month;
@@ -32,17 +32,17 @@ public class FunctionChosenView extends JDialog implements ActionListener{
 
 	public void init(){
 		setBounds(100, 100, 255, 70);
-		setTitle("current day " + year + "/" + month + "/" + day);
+		setTitle("choosen day: " + day + "/" + month + "/" + year);
 		getContentPane().setLayout(null);
-		btncalendar = new JButton("Calendar");
+		btncalendar = new JButton("Events");
 		btncalendar.addActionListener(this);
 		btncalendar.setBounds(0, 0, 120, 30);
 		getContentPane().add(btncalendar);
 
-		btnaccount = new JButton("Account");
-		btnaccount.addActionListener(this);
-		btnaccount.setBounds(120, 0, 120, 30);
-		getContentPane().add(btnaccount);
+		//btnaccount = new JButton("Account");
+		//btnaccount.addActionListener(this);
+		//btnaccount.setBounds(120, 0, 120, 30);
+		//getContentPane().add(btnaccount);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -57,7 +57,7 @@ public class FunctionChosenView extends JDialog implements ActionListener{
 				ex.printStackTrace();
 			}
 		}
-		else if( e.getSource() == btnaccount ) {
+		/*else if( e.getSource() == btnaccount ) {
 			try {
 				AccountView frame = new AccountView(year, month, day);
 				frame.setLocationRelativeTo(null);
@@ -67,7 +67,7 @@ public class FunctionChosenView extends JDialog implements ActionListener{
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-		}
+		}*/
 	}
 
 }

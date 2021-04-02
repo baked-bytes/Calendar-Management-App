@@ -89,7 +89,7 @@ public class CalendarView extends JFrame implements ActionListener {
 		table.setRowHeight(50);
 		table.setFont(new Font("Serif", Font.BOLD, 20));
 
-		JLabel lblHeading = new JLabel(year + "/" + month + "/" + day);
+		JLabel lblHeading = new JLabel(day+ "/" + month + "/" + year);
 		lblHeading.setForeground(Color.BLUE);
 		lblHeading.setFont(new Font("Arial", Font.TRUETYPE_FONT, 24));
 
