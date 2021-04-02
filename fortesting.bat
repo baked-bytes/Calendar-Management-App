@@ -1,4 +1,4 @@
-cd C:\Users\morris\Desktop\ooad_clander\OOAD 
+cd C:\Users\Amitha\git\Calendar-Management-App 
 decide.exe
 ping 127.0.0.1 -n 1 -w 70> nul
 del msgbox.vbs

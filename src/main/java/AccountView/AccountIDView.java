@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import DB.AccountManager;
-import Model.CostRecord;
 
 public class AccountIDView extends JDialog implements ActionListener{
 

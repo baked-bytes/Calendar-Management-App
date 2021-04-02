@@ -14,8 +14,6 @@ import javax.swing.table.DefaultTableModel;
 
 import AccountView.AccountIDView;
 import AccountView.AccountView;
-import Model.CostRecord;
-import Model.CostRecordBuilder;
 
 public class AccountManager {
 

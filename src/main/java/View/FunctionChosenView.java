@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import AccountView.AccountView;
 import CalendarView.CalendarView;
 import DB.AccountManager;
-import Model.CostRecord;
 
 public class FunctionChosenView extends JDialog implements ActionListener{
 
