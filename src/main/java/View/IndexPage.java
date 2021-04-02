@@ -18,7 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Report.DetailReportView;
+//import Report.DetailReportView;
 
 public class IndexPage extends JFrame implements ActionListener {
 
@@ -30,7 +30,7 @@ public class IndexPage extends JFrame implements ActionListener {
 
 	private JButton button_ok = new JButton("check");
 	private JButton button_today = new JButton("today");
-	private JButton button_report = new JButton("Report");
+	//private JButton button_report = new JButton("Report");
 
 	private Date now_date = new Date();
 
@@ -61,7 +61,7 @@ public class IndexPage extends JFrame implements ActionListener {
 		MonthLabel.setFont(font);
 		button_ok.setFont(font);
 		button_today.setFont(font);
-		button_report.setFont(font);
+		//button_report.setFont(font);
 
 		for (int i = now_year; i <= now_year + 1; i++) {
 			YearBox.addItem(i + "");
@@ -80,11 +80,11 @@ public class IndexPage extends JFrame implements ActionListener {
 		panel_ym.add(MonthBox);
 		panel_ym.add(button_ok);
 		panel_ym.add(button_today);
-		panel_ym.add(button_report);
+		//panel_ym.add(button_report);
 
 		button_ok.addActionListener(this);
 		button_today.addActionListener(this);
-		button_report.addActionListener(this);
+		//button_report.addActionListener(this);
 
 		JPanel panel_day = new JPanel();
 		// 7*7
@@ -117,14 +117,14 @@ public class IndexPage extends JFrame implements ActionListener {
 	}
 
 	private void paintDay() {
-		System.out.println("todayflag = " + todayFlag);
+		//System.out.println("todayflag = " + todayFlag);
 		if (todayFlag) {
 			year_int = now_year + "";
 			month_int = now_month;
 		} else {
 			year_int = YearBox.getSelectedItem().toString();
 			month_int = MonthBox.getSelectedIndex();
-			System.out.println("yer: " + year_int + "month = " + month_int);
+			System.out.println("year : " + year_int + "\t month : " + month_int);
 		}
 
 		int year_sel = Integer.parseInt(year_int) - 1900;
@@ -197,20 +197,20 @@ public class IndexPage extends JFrame implements ActionListener {
 			YearBox.setSelectedIndex(0);
 			MonthBox.setSelectedIndex(now_month);
 			this.paintDay();
-		} else if (e.getSource() == button_report) {
+		} /*else if (e.getSource() == button_report) {
 			DetailReportView detailReportView = new DetailReportView(YearBox.getSelectedItem().toString(),
 					MonthBox.getSelectedItem().toString());
 			detailReportView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		} else {
+		} */ else {
 			for (int i = 0; i < 42; i++) {
 				if (e.getSource() == button_day[i]) {
-					System.out.println(
-							YearBox.getSelectedItem().toString() + " " + MonthBox.getSelectedItem().toString());
+					System.out.print(
+							"year : "+YearBox.getSelectedItem().toString() + "\t month : " + MonthBox.getSelectedItem().toString());
 					Object source = e.getSource();
 					if (source instanceof JButton) {
 						JButton btn = (JButton) source;
 						final String butSrcTxt = btn.getText();
-						System.out.println("i = " + butSrcTxt);
+						System.out.println("\t day : " + butSrcTxt);
 						if (butSrcTxt != "") {
 							try {
 								FunctionChosenView frame = new FunctionChosenView(YearBox.getSelectedItem().toString(),
