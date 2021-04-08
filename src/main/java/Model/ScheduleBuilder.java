@@ -8,6 +8,7 @@ public class ScheduleBuilder {
 	private String time;
 	private String id;
 	private String isNotify;
+	private String invite;
 
 	public ScheduleBuilder year(String year) {
 		this.year = year;
@@ -28,6 +29,11 @@ public class ScheduleBuilder {
 		this.content = content;
 		return this;
 	}
+	
+	public ScheduleBuilder invite(String invite) {
+		this.invite = invite;
+		return this;
+	}
 
 	public ScheduleBuilder time(String time) {
 		this.time = time;
@@ -45,7 +51,7 @@ public class ScheduleBuilder {
 	}
 
 	public Schedule build() {
-		return new Schedule(year, month, day, content, time, id, isNotify);
+		return new Schedule(year, month, day, content, time, id, isNotify, invite);
 	}
 
 }

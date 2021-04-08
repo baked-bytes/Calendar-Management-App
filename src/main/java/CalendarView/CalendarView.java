@@ -34,16 +34,18 @@ public class CalendarView extends JFrame implements ActionListener {
 		calendarManager = new CalendarManager(year, month, day);
 		init();
 	}
+	
 
 	public String[][] getdata(ArrayList<Schedule> data) {
 		scheduleDataSize = data.size();
-		String[][] mydata = new String[data.size()][4];
+		String[][] mydata = new String[data.size()][5];
 
 		for (int i = 0; i < data.size(); i++) {
 			mydata[i][0] = Integer.toString(i + 1);
 			mydata[i][1] = data.get(i).getTime();
 			mydata[i][2] = data.get(i).getContent();
 			mydata[i][3] = data.get(i).getIsNotify().equals("true") ? "O" : "X";
+			mydata[i][4] = data.get(i).getInvite();
 		}
 		return mydata;
 	}
@@ -59,23 +61,23 @@ public class CalendarView extends JFrame implements ActionListener {
 		model.setRowCount(0);
 		ArrayList<Schedule> data = getTheDaySchedule();
 		scheduleDataSize = data.size();
-		String[] mydata = new String[4];
+		String[] mydata = new String[5];
 		for (int i = 0; i < data.size(); i++) {
 			mydata[0] = Integer.toString(i + 1);
 			mydata[1] = data.get(i).getTime();
 			mydata[2] = data.get(i).getContent();
 			mydata[3] = data.get(i).getIsNotify().equals("true") ? "O" : "X";
+			mydata[4] = data.get(i).getInvite();
 			model.addRow(mydata);
 		}
 		model.fireTableDataChanged();
 	}
 
 	public void init() {
-
 		setTitle("Calendar Table View");
 		this.getContentPane().setBackground(Color.YELLOW);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		String[] columns = { "ID", "TIME", "SCHEDULE", "REMIND" };
+		String[] columns = { "ID", "TIME", "SCHEDULE", "REMIND","INVITE" };
 
 		Object[][] data = getdata(getTheDaySchedule());
 
@@ -115,8 +117,6 @@ public class CalendarView extends JFrame implements ActionListener {
 		addButton.addActionListener(this);
 		editButton.addActionListener(this);
 	}
-
-
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addButton) {

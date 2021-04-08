@@ -8,8 +8,9 @@ public class Schedule {
 	private String time;
 	private String id;
 	private String isNotify;
+	private String invite;
 	
-	public Schedule( String year,String month,String day,String content,String time,String id,String isNotify ){
+	public Schedule( String year,String month,String day,String content,String time,String id,String isNotify, String invite ){
 	  this.year = year;
 	  this.month = month;
 	  this.content = content;
@@ -17,6 +18,7 @@ public class Schedule {
 	  this.id = id;
 	  this.isNotify = isNotify;
 	  this.day = day;
+	  this.invite = invite;
 	}
 	
 	public String getId(){
@@ -37,6 +39,10 @@ public class Schedule {
 
 	public String getContent() {
 		return content;
+	}
+	
+	public String getInvite() {
+		return invite;
 	}
 
 	public String getTime() {
@@ -61,6 +67,10 @@ public class Schedule {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	public void setInvite(String invite) {
+		this.invite = invite;
 	}
 
 	public void setTime(String time) {

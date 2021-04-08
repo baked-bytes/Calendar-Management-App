@@ -27,6 +27,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 	private JTextField endTimeText;
 	private JCheckBox windowRemiderCheck;
 	private JTextArea textContentArea;
+	private JTextArea textContentArea_invite;
 	private JButton btnOKButton;
 
 	private String year;
@@ -68,16 +69,28 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 
 	public void init() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 250);
+		setBounds(200, 200, 400, 250);
 		JPanel contentPane = new JPanel();
-		this.setTitle(year + " /" + month + " /" + day);
+		this.setTitle(day + "/" + month + "/" + year);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-
+		
 		textContentArea = new JTextArea();
 		textContentArea.setFont(textContentArea.getFont().deriveFont(16f));
-		contentPane.add(textContentArea, BorderLayout.CENTER);
+		
+		textContentArea_invite = new JTextArea();
+		textContentArea_invite.setFont(textContentArea_invite.getFont().deriveFont(16f));
+		
+		//contentPane.add(textContentArea, BorderLayout.EAST);
+		//contentPane.add(textContentArea_invite, BorderLayout.WEST);
+		
+		JPanel panel_main = new JPanel();
+		panel_main.setLayout(new BorderLayout());
+		panel_main.add(textContentArea, BorderLayout.NORTH);
+		panel_main.add(textContentArea_invite, BorderLayout.SOUTH);
+		contentPane.add(panel_main);
+
 
 		btnOKButton = new JButton("OK");
 		btnOKButton.addActionListener(this);
@@ -100,13 +113,15 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		panel.add(endTimeText);
 
 		endTimeText.setColumns(5);
-		windowRemiderCheck = new JCheckBox("Remider");
+		windowRemiderCheck = new JCheckBox("Reminder");
 		panel.add(windowRemiderCheck);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 
 		String userInputContent = textContentArea.getText();
+		String userInputInvite = textContentArea_invite.getText();
+		//System.out.println(userInputInvite);
 		String userInputStartTime = startTimeText.getText();
 		String userInputEndTime = endTimeText.getText();
 		String userRemiderCheck = (windowRemiderCheck.isSelected()) ? "true" : "false";
@@ -116,11 +131,11 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		else {
 			CalendarManager calendarManager = new CalendarManager(year, month, day);
 			if (isEdit) {
-				setScheduleAfterUserInputTheEditContent(userInputContent, userInputStartTime, userInputEndTime,
+				setScheduleAfterUserInputTheEditContent(userInputContent, userInputInvite, userInputStartTime, userInputEndTime,
 						userRemiderCheck);
 				calendarManager.editSchedule(scheduleToBeEdited, scheduleToBeEdited.getId());
 			} else {
-				setScheduleAfterUserInput(userInputContent, userInputStartTime, userInputEndTime, userRemiderCheck);
+				setScheduleAfterUserInput(userInputContent, userInputInvite, userInputStartTime, userInputEndTime, userRemiderCheck);
 				calendarManager.addSchedule(scheduleAfterUserInput);
 			}
 			calendarView.refreshTableData();
@@ -146,18 +161,19 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		return true;
 	}
 
-	public void setScheduleAfterUserInputTheEditContent(String content, String startTime, String endTime,
-			String RemiderCheck) {
+	public void setScheduleAfterUserInputTheEditContent(String content, String invite, String startTime, String endTime,
+			String ReminderCheck) {
 		String time = startTime + "-" + endTime;
 		scheduleToBeEdited.setContent(content);
 		scheduleToBeEdited.setTime(time);
-		scheduleToBeEdited.setIsNotify(RemiderCheck);
+		scheduleToBeEdited.setInvite(invite);
+		scheduleToBeEdited.setIsNotify(ReminderCheck);
 	}
 
-	public void setScheduleAfterUserInput(String content, String startTime, String endTime, String RemiderCheck) {
+	public void setScheduleAfterUserInput(String content, String invite, String startTime, String endTime, String ReminderCheck) {
 		String time = startTime + "-" + endTime;
-		scheduleAfterUserInput = new ScheduleBuilder().year(year).month(month).day(day).isNotify(RemiderCheck)
-				.time(time).content(content).build();
+		scheduleAfterUserInput = new ScheduleBuilder().year(year).month(month).day(day).isNotify(ReminderCheck)
+				.time(time).content(content).invite(invite).build();
 	}
 
 	public void showErrorMessageDialog(String message) {

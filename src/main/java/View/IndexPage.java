@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-//import Report.DetailReportView;
 
 public class IndexPage extends JFrame implements ActionListener {
 
@@ -26,7 +25,7 @@ public class IndexPage extends JFrame implements ActionListener {
 
 	private JButton button_ok = new JButton("check");
 	private JButton button_today = new JButton("today");
-	//private JButton button_report = new JButton("Report");
+	
 
 	private Date now_date = new Date();
 
@@ -76,14 +75,14 @@ public class IndexPage extends JFrame implements ActionListener {
 		panel_ym.add(MonthBox);
 		panel_ym.add(button_ok);
 		panel_ym.add(button_today);
-		//panel_ym.add(button_report);
+		
 
 		button_ok.addActionListener(this);
 		button_today.addActionListener(this);
-		//button_report.addActionListener(this);
+	
 
 		JPanel panel_day = new JPanel();
-		// 7*7
+	
 		panel_day.setLayout(new GridLayout(7, 7, 3, 3));
 		for (int i = 0; i < 7; i++) {
 			button_week[i] = new JButton(" ");
@@ -97,7 +96,7 @@ public class IndexPage extends JFrame implements ActionListener {
 		for (int i = 0; i < 42; i++) {
 			button_day[i] = new JButton(" ");
 
-			button_day[i].addActionListener(this); // ****
+			button_day[i].addActionListener(this);
 
 			panel_day.add(button_day[i]);
 		}
@@ -193,11 +192,7 @@ public class IndexPage extends JFrame implements ActionListener {
 			YearBox.setSelectedIndex(0);
 			MonthBox.setSelectedIndex(now_month);
 			this.paintDay();
-		} /*else if (e.getSource() == button_report) {
-			DetailReportView detailReportView = new DetailReportView(YearBox.getSelectedItem().toString(),
-					MonthBox.getSelectedItem().toString());
-			detailReportView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		} */ else {
+		} else {
 			for (int i = 0; i < 42; i++) {
 				if (e.getSource() == button_day[i]) {
 					System.out.print(
@@ -213,15 +208,15 @@ public class IndexPage extends JFrame implements ActionListener {
 										MonthBox.getSelectedItem().toString(), butSrcTxt);
 								frame.setVisible(true);
 								frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-								//
+							
 							} catch (Exception ex) {
 								ex.printStackTrace();
 							}
 						}
-					} // if
+					} 
 				}
-			} // for
-		} // else
+			} 
+		}
 
 	}
 

@@ -17,8 +17,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import DB.CalendarManager;
-import Model.Schedule;
 import Model.ScheduleBuilder;
+import Model.Schedule;
 
 import junit.framework.Assert;
 

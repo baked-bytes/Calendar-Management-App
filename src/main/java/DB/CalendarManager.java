@@ -1,7 +1,6 @@
 package DB;
 
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,8 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import CalendarView.WindowsReminder;
-import Model.Schedule;
 import Model.ScheduleBuilder;
+import Model.Schedule;
 
 public class CalendarManager {
 
@@ -35,7 +34,7 @@ public class CalendarManager {
 			System.out.println("Opened database successfully");
 
 			stmt = connection.createStatement();
-			String sql = "CREATE TABLE Schedule( ID INTEGER PRIMARY KEY AUTOINCREMENT ,YEAR TEXT NOT NULL,MONTH TEXT NOT NULL,DAY TEXT NOT NULL,CONTENT TEXT NOT NULL,TIME TEXT NOT NULL, NOTIFY BOOLEAN NOT NULL);";
+			String sql = "CREATE TABLE Schedule( ID INTEGER PRIMARY KEY AUTOINCREMENT ,YEAR TEXT NOT NULL,MONTH TEXT NOT NULL,DAY TEXT NOT NULL,CONTENT TEXT NOT NULL,TIME TEXT NOT NULL, NOTIFY BOOLEAN NOT NULL, INVITE TEXT NULL);";
 
 			stmt.executeUpdate(sql);
 			connection.commit();
@@ -49,6 +48,7 @@ public class CalendarManager {
 	}
 
 	public void executeSQL(String sqlStmt) {
+		System.out.println("executeSQL");
 		Connection connection = null;
 		Statement stmt = null;
 		try {
@@ -70,9 +70,10 @@ public class CalendarManager {
 	}
 
 	public void addSchedule(Schedule data) {
-		String sql = "insert into Schedule( YEAR, MONTH, DAY,CONTENT, TIME, NOTIFY )" + "VALUES(\'" + data.getYear()
+		System.out.println("addschedule");
+		String sql = "insert into Schedule( YEAR, MONTH, DAY,CONTENT, TIME, NOTIFY, INVITE )" + "VALUES(\'" + data.getYear()
 				+ "','" + data.getMonth() + "','" + data.getDay() + "','" + data.getContent() + "','" + data.getTime()
-				+ "','" + data.getIsNotify() + "\');";
+				+ "','" + data.getIsNotify() + "','"+ data.getInvite() +"\');";
 		executeSQL(sql);
 		if(data.getIsNotify() == "true") {
 			Connection c = null;
@@ -92,7 +93,7 @@ public class CalendarManager {
 				while (rs.next()) {
 					 reminderdata = new ScheduleBuilder().year(year).month(month).day(day)
 							.isNotify(rs.getString("notify")).time(rs.getString("time")).id(rs.getString("id"))
-							.content(rs.getString("CONTENT")).build();
+							.content(rs.getString("CONTENT")).invite(rs.getString("INVITE")).build();
 
 				}
 				rs.close();
@@ -109,6 +110,7 @@ public class CalendarManager {
 	}
 
 	public void editSchedule(Schedule data, String idEdit) {
+		System.out.println("editSchedule");
 		Connection c = null;
 		Statement stmt = null;
 		Schedule originaldata = null;
@@ -126,7 +128,7 @@ public class CalendarManager {
 			while (rs.next()) {
 				 originaldata = new ScheduleBuilder().year(year).month(month).day(day)
 						.isNotify(rs.getString("notify")).time(rs.getString("time")).id(rs.getString("id"))
-						.content(rs.getString("CONTENT")).build();
+						.content(rs.getString("CONTENT")).invite(rs.getString("INVITE")).build();
 			}
 			rs.close();
 			stmt.close();
@@ -142,12 +144,13 @@ public class CalendarManager {
 		}
 		
 		String sql = "update Schedule set CONTENT='" + data.getContent() + "',TIME = '" + data.getTime() + "',NOTIFY='"
-				+ data.getIsNotify() + "'where id = '" + idEdit + "';";
+				+ data.getIsNotify() +"',INVITE = '"+data.getInvite()+ "'where id = '" + idEdit + "';";
 		executeSQL(sql);
 		
 	}
 
 	public void deleteDaySchedule(int dayNumId) {
+		System.out.println("deleteDaySchedule");
 		setSchedule();
 		String id = getSchedule().get(dayNumId-1).getId();
 		
@@ -170,7 +173,7 @@ public class CalendarManager {
 			while (rs.next()) {
 				 reminderdata = new ScheduleBuilder().year(year).month(month).day(day)
 						.isNotify(rs.getString("notify")).time(rs.getString("time")).id(rs.getString("id"))
-						.content(rs.getString("CONTENT")).build();
+						.content(rs.getString("CONTENT")).invite(rs.getString("INVITE")).build();
 
 			}
 			rs.close();
@@ -213,7 +216,7 @@ public class CalendarManager {
 			while (rs.next()) {
 				schedule = new ScheduleBuilder().year(year).month(month).day(day)
 						.isNotify(rs.getString("notify")).time(rs.getString("time")).id(rs.getString("id"))
-						.content(rs.getString("CONTENT")).build();
+						.content(rs.getString("CONTENT")).invite(rs.getString("INVITE")).build();
 			}
 			rs.close();
 			stmt.close();
@@ -244,7 +247,7 @@ public class CalendarManager {
 			while (rs.next()) {
 				Schedule schedule = new ScheduleBuilder().year(year).month(month).day(day)
 						.isNotify(rs.getString("notify")).time(rs.getString("time")).id(rs.getString("id"))
-						.content(rs.getString("CONTENT")).build();
+						.content(rs.getString("CONTENT")).invite(rs.getString("INVITE")).build();
 
 				allScheduleList.add(schedule);
 			}
@@ -257,5 +260,4 @@ public class CalendarManager {
 		}
 		System.out.println("Operation done successfully");
 	}
-
 }
