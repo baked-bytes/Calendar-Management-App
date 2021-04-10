@@ -1,1 +1,1 @@
-SCHTASKS /Delete /TN fortesting6 /F
+SCHTASKS /Delete /TN fortesting36 /F

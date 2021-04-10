@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import CalendarView.WindowsReminder;
+import CalendarView.PopUp;
 import Model.ScheduleBuilder;
 import Model.Schedule;
 
@@ -16,7 +17,7 @@ public class CalendarManager {
 	private String year;
 	private String month;
 	private String day;
-
+	public PopUp test;
 	private ArrayList<Schedule> allScheduleList = new ArrayList<Schedule>();
 
 	public CalendarManager(String year, String month, String day) {
@@ -80,6 +81,7 @@ public class CalendarManager {
 			Statement stmt = null;
 			Schedule reminderdata = null;
 			WindowsReminder testing = null;
+		
 			try {
 				Class.forName("org.sqlite.JDBC");
 				c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
@@ -105,6 +107,7 @@ public class CalendarManager {
 			}
 			System.out.println(reminderdata.getId());
 			testing = new WindowsReminder(reminderdata);
+			test = new PopUp(reminderdata);
 			testing.setReminder();
 		}
 	}
@@ -141,6 +144,8 @@ public class CalendarManager {
 		if(!(originaldata.getIsNotify().equals(data.getIsNotify()))){
 			testing = new WindowsReminder(originaldata);
 			testing.editReminder();
+			test.deleteReminder();
+			test=new PopUp(originaldata);
 		}
 		
 		String sql = "update Schedule set CONTENT='" + data.getContent() + "',TIME = '" + data.getTime() + "',NOTIFY='"
@@ -160,6 +165,7 @@ public class CalendarManager {
 		Statement stmt = null;
 		Schedule reminderdata = null;
 		WindowsReminder testing = null;
+		
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
@@ -186,6 +192,8 @@ public class CalendarManager {
 		if(!(reminderdata.getIsNotify().equals(true))){
 			testing = new WindowsReminder(reminderdata);
 			testing.deleteReminder();
+			test= new PopUp(reminderdata);
+			test.deleteReminder();
 		}
 		executeSQL(sql);
 	}

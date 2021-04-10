@@ -25,7 +25,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 
 	private JTextField startTimeText;
 	private JTextField endTimeText;
-	private JCheckBox windowRemiderCheck;
+	private JCheckBox windowReminderCheck;
 	private JTextArea textContentArea;
 	private JTextArea textContentArea_invite;
 	private JButton btnOKButton;
@@ -64,7 +64,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		endTimeText.setText(parts[1]);
 		textContentArea.setText(scheduleToBeEdited.getContent());
 		if (scheduleToBeEdited.getIsNotify().equals("true"))
-			windowRemiderCheck.setSelected(true);
+			windowReminderCheck.setSelected(true);
 	}
 
 	public void init() {
@@ -113,8 +113,8 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		panel.add(endTimeText);
 
 		endTimeText.setColumns(5);
-		windowRemiderCheck = new JCheckBox("Reminder");
-		panel.add(windowRemiderCheck);
+		windowReminderCheck = new JCheckBox("Reminder");
+		panel.add(windowReminderCheck);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -124,7 +124,7 @@ public class CalendarSettingView extends JFrame implements ActionListener {
 		//System.out.println(userInputInvite);
 		String userInputStartTime = startTimeText.getText();
 		String userInputEndTime = endTimeText.getText();
-		String userRemiderCheck = (windowRemiderCheck.isSelected()) ? "true" : "false";
+		String userRemiderCheck = (windowReminderCheck.isSelected()) ? "true" : "false";
 
 		if (!confirmTheDataInputFormat(userInputContent, userInputStartTime, userInputEndTime))
 			showErrorMessageDialog(errorMessage);
