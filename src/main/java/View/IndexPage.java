@@ -58,7 +58,7 @@ public class IndexPage extends JFrame implements ActionListener {
 		button_today.setFont(font);
 		//button_report.setFont(font);
 
-		for (int i = now_year; i <= now_year + 1; i++) {
+		for (int i = now_year; i <= now_year + 3; i++) {
 			YearBox.addItem(i + "");
 		}
 		YearBox.setSelectedIndex(0);

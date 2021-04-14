@@ -106,8 +106,10 @@ public class CalendarManager {
 				System.exit(0);
 			}
 			System.out.println(reminderdata.getId());
-			testing = new WindowsReminder(reminderdata);
+			testing = new WindowsReminder(reminderdata);	//handles DB
 			test = new PopUp(reminderdata);
+			if(test==null)
+				System.out.print("null pointer error");
 			testing.setReminder();
 		}
 	}
@@ -144,12 +146,13 @@ public class CalendarManager {
 		if(!(originaldata.getIsNotify().equals(data.getIsNotify()))){
 			testing = new WindowsReminder(originaldata);
 			testing.editReminder();
-			test.deleteReminder();
+			test.deleteReminder();	//throws null pointer
+			test=null;
 			test=new PopUp(originaldata);
 		}
 		
 		String sql = "update Schedule set CONTENT='" + data.getContent() + "',TIME = '" + data.getTime() + "',NOTIFY='"
-				+ data.getIsNotify() +"',INVITE = '"+data.getInvite()+ "'where id = '" + idEdit + "';";
+				+ data.getIsNotify() +"',INVITE = '"+ data.getInvite()+ "'where id = '" + idEdit + "';";
 		executeSQL(sql);
 		
 	}
@@ -190,9 +193,8 @@ public class CalendarManager {
 			System.exit(0);
 		}
 		if(!(reminderdata.getIsNotify().equals(true))){
-			testing = new WindowsReminder(reminderdata);
+			testing = new WindowsReminder(reminderdata);	//handles DB
 			testing.deleteReminder();
-			test= new PopUp(reminderdata);
 			test.deleteReminder();
 		}
 		executeSQL(sql);
@@ -268,4 +270,5 @@ public class CalendarManager {
 		}
 		System.out.println("Operation done successfully");
 	}
+	
 }

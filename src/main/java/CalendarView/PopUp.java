@@ -12,7 +12,9 @@ public class PopUp {
 	private String month;
 	private String day;
 	private Schedule needtoremind;
-	private int flag;
+	public int flag;
+	Timer timer;
+	TimerTask tt;
 	public PopUp(Schedule needtoremind) {
 		  this.year = needtoremind.getYear();
 		  this.month = needtoremind.getMonth();
@@ -22,8 +24,8 @@ public class PopUp {
 		  this.pop();	 
 	}
 	public void pop() {
-	    Timer timer = new Timer();
-	    TimerTask tt = new TimerTask() {
+	    timer = new Timer();
+	    tt = new TimerTask() {
 	        @Override
 	        public void run() {
 	            Calendar cal = Calendar.getInstance();
@@ -43,6 +45,8 @@ public class PopUp {
 	}
 	public void deleteReminder()
 	{
-		flag=1;
+		tt.cancel();
+		timer.cancel();
+		timer.purge();
 	}
-}
+	}
