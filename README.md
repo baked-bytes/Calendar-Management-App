@@ -42,13 +42,3 @@ Contains:
     * Snapshot of Testing Result
     * Unit Testing Code Listing
   * Measurement  
-
-[documentation site](documentation/personalCalendarDocument.docx)
-
-### Credits to original repo developers
-
-[Link to the repo](https://github.com/mpjp/Personal-Calendar)
-
-- 106598038 Li Bolin
-- 106598048 Guo Shiquan
-- 106598053 Chen Yunwen
