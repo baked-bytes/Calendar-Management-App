@@ -1,1 +1,0 @@
-SCHTASKS /Create /SC ONCE /TN forTesting50 /TR C:\Users\Amitha\git\Calendar-Management-App\testinginvisible.vbs /ST 12:00:00 /SD 2021/04/15

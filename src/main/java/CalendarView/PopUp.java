@@ -11,16 +11,17 @@ public class PopUp {
 	private String year;
 	private String month;
 	private String day;
-	private Schedule needtoremind;
+	public Schedule needtoremind;
 	public int flag;
-	Timer timer;
-	TimerTask tt;
+	private Timer timer;
+	private TimerTask tt;
 	public PopUp(Schedule needtoremind) {
 		  this.year = needtoremind.getYear();
 		  this.month = needtoremind.getMonth();
 		  this.day = needtoremind.getDay();
 		  this.needtoremind = needtoremind;
-		  this.flag=0;
+		  this.timer=null;
+		  this.tt=null;
 		  this.pop();	 
 	}
 	public void pop() {
@@ -29,13 +30,12 @@ public class PopUp {
 	        @Override
 	        public void run() {
 	            Calendar cal = Calendar.getInstance();
-
 	            int hour = cal.get(Calendar.HOUR_OF_DAY);
 	            int min = cal.get(Calendar.MINUTE);
 	            int sec = cal.get(Calendar.SECOND);
 	            String[] parts = needtoremind.getTime().split("-");
 	            
-	            if (flag==0 && hour == Integer.parseInt(parts[0].substring(0, 2))  && min == Integer.parseInt(parts[0].substring(2, 4))  && sec == 0) {
+	            if (hour == Integer.parseInt(parts[0].substring(0, 2))  && min == Integer.parseInt(parts[0].substring(2, 4))  && sec == 0) {
 	                JOptionPane.showMessageDialog(null, "PopUp Success at "+new Date().toString());
 	                System.out.println("PopUp Success at "+new Date().toString());
 	            }
@@ -48,5 +48,7 @@ public class PopUp {
 		tt.cancel();
 		timer.cancel();
 		timer.purge();
+		tt=null;
+		timer=null;
 	}
 	}

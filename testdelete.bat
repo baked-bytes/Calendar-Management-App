@@ -1,1 +1,0 @@
-SCHTASKS /Delete /TN fortesting50 /F

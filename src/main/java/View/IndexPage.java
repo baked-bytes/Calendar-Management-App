@@ -34,7 +34,7 @@ public class IndexPage extends JFrame implements ActionListener {
 	private boolean todayFlag = false;
 
 	private JButton[] button_day = new JButton[42];
-	private final String[] week = { "SUN", "MON", "TUE", "WEN", "THR", "FRI", "SAT" };
+	private final String[] week = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" };
 	private JButton[] button_week = new JButton[7];
 	private String year_int = null;
 	private int month_int;

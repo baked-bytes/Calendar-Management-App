@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import CalendarView.WindowsReminder;
 import CalendarView.PopUp;
 import Model.ScheduleBuilder;
 import Model.Schedule;
@@ -17,7 +16,7 @@ public class CalendarManager {
 	private String year;
 	private String month;
 	private String day;
-	public PopUp test;
+	public static ArrayList<PopUp> timers=new ArrayList<PopUp>();
 	private ArrayList<Schedule> allScheduleList = new ArrayList<Schedule>();
 
 	public CalendarManager(String year, String month, String day) {
@@ -80,7 +79,7 @@ public class CalendarManager {
 			Connection c = null;
 			Statement stmt = null;
 			Schedule reminderdata = null;
-			WindowsReminder testing = null;
+		
 		
 			try {
 				Class.forName("org.sqlite.JDBC");
@@ -105,12 +104,9 @@ public class CalendarManager {
 				System.err.println(e.getClass().getName() + ": " + e.getMessage());
 				System.exit(0);
 			}
-			System.out.println(reminderdata.getId());
-			testing = new WindowsReminder(reminderdata);	//handles DB
-			test = new PopUp(reminderdata);
-			if(test==null)
-				System.out.print("null pointer error");
-			testing.setReminder();
+			timers.add(new PopUp(reminderdata));
+			System.out.print(timers);
+			
 		}
 	}
 
@@ -119,7 +115,6 @@ public class CalendarManager {
 		Connection c = null;
 		Statement stmt = null;
 		Schedule originaldata = null;
-		WindowsReminder testing = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:Calendar.db");
@@ -128,7 +123,7 @@ public class CalendarManager {
 
 			stmt = c.createStatement();
 			String sqlOriginal = "SELECT * FROM Schedule where id ='" + idEdit + "'";
-
+			System.out.print(idEdit);
 			ResultSet rs = stmt.executeQuery(sqlOriginal);
 			while (rs.next()) {
 				 originaldata = new ScheduleBuilder().year(year).month(month).day(day)
@@ -144,11 +139,20 @@ public class CalendarManager {
 		}
 		
 		if(!(originaldata.getIsNotify().equals(data.getIsNotify()))){
-			testing = new WindowsReminder(originaldata);
-			testing.editReminder();
-			test.deleteReminder();	//throws null pointer
-			test=null;
-			test=new PopUp(originaldata);
+			if(!timers.isEmpty())
+			{
+				for(int i=0;i<timers.size();i++)
+				{
+					//System.out.print(timers.get(i).needtoremind.getTime());
+					if(timers.get(i).needtoremind.getTime().equals(originaldata.getTime()))
+					{
+						//System.out.println("delete");
+						timers.get(i).deleteReminder();
+						timers.remove(i);
+					}
+				}
+			}
+			timers.add(new PopUp(data));
 		}
 		
 		String sql = "update Schedule set CONTENT='" + data.getContent() + "',TIME = '" + data.getTime() + "',NOTIFY='"
@@ -158,6 +162,7 @@ public class CalendarManager {
 	}
 
 	public void deleteDaySchedule(int dayNumId) {
+		
 		System.out.println("deleteDaySchedule");
 		setSchedule();
 		String id = getSchedule().get(dayNumId-1).getId();
@@ -167,7 +172,6 @@ public class CalendarManager {
 		Connection c = null;
 		Statement stmt = null;
 		Schedule reminderdata = null;
-		WindowsReminder testing = null;
 		
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -193,9 +197,23 @@ public class CalendarManager {
 			System.exit(0);
 		}
 		if(!(reminderdata.getIsNotify().equals(true))){
-			testing = new WindowsReminder(reminderdata);	//handles DB
-			testing.deleteReminder();
-			test.deleteReminder();
+			
+			//System.out.print(reminderdata.getTime());
+			//System.out.print(timers);
+			if(!timers.isEmpty())
+			{
+				for(int i=0;i<timers.size();i++)
+				{
+					//System.out.print(timers.get(i).needtoremind.getTime());
+					if(timers.get(i).needtoremind.getTime().equals(reminderdata.getTime()))
+					{
+						//System.out.println("delete");
+						timers.get(i).deleteReminder();
+						timers.remove(i);
+					}
+				}
+			}
+
 		}
 		executeSQL(sql);
 	}

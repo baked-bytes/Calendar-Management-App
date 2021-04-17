@@ -49,7 +49,6 @@ public class FunctionChosenView extends JDialog implements ActionListener{
 				frame.setLocationRelativeTo(null);
 				frame.setVisible(true);
 				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				//
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
